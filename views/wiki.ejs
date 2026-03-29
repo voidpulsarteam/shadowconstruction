@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', {
+  title: 'Shadow Construction Wiki | ER:LC Docs',
+  fontsUrl: 'https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap',
+  cssFile: 'wiki.css'
+}) %>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <a href="/" class="topnav-back">← Back to Site</a>
+  <div class="topnav-divider"></div>
+  <a href="/" class="topnav-logo">SHADOW <span>CONST.</span></a>
+  <span class="topnav-label">WIKI</span>
+  <div class="topnav-search">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="Search docs..." id="searchInput" oninput="handleSearch(this.value)">
+  </div>
+</div>
+
+<div class="wiki-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Overview</div>
+      <a class="sidebar-link active" onclick="scrollTo('overview')"><span class="link-icon">🏠</span> Wiki Home</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Documents</div>
+      <a class="sidebar-link" onclick="scrollTo('radio')"><span class="link-icon">📻</span> Radio Codes</a>
+      <a class="sidebar-link" onclick="scrollTo('schedule')"><span class="link-icon">📅</span> Session Schedule</a>
+      <a class="sidebar-link" onclick="scrollTo('uniform')"><span class="link-icon">🦺</span> Uniform Guide</a>
+      <a class="sidebar-link" onclick="scrollTo('ranks')"><span class="link-icon">⭐</span> Ranks & Promotions</a>
+    </div>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">
+      <div class="sidebar-heading">Quick Links</div>
+      <a class="sidebar-link" href="/#rules"><span class="link-icon">📋</span> Group Rules</a>
+      <a class="sidebar-link" href="/#roles"><span class="link-icon">👷</span> Open Roles</a>
+      <a class="sidebar-link" href="/#discord"><span class="link-icon">💬</span> Discord</a>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="wiki-main">
+
+    <!-- WIKI HERO -->
+    <div class="wiki-hero" id="overview">
+      <div class="wiki-hero-content">
+        <div class="wiki-breadcrumb"><a href="/">Shadow Construction</a> / Wiki</div>
+        <h1>SHADOW <span>WIKI</span></h1>
+        <p>Official documentation for all Shadow Construction crew members. Use this wiki to look up radio codes, session times, uniform requirements, and rank information.</p>
+        <div class="wiki-doc-count">
+          <span class="doc-chip">📻 Radio Codes</span>
+          <span class="doc-chip">📅 Session Schedule</span>
+          <span class="doc-chip">🦺 Uniform Guide</span>
+          <span class="doc-chip">⭐ Ranks & Promotions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- RADIO CODES -->
+    <div class="doc-section" id="radio">
+      <div class="doc-section-header">
+        <span class="doc-section-icon">📻</span>
+        <div class="doc-section-title">Radio Codes</div>
+        <span class="doc-section-badge">10-Codes & Signals</span>
+      </div>
+      <div class="doc-desc">
+        All Shadow Construction crew members are required to use standard radio codes during active sessions. These codes keep comms fast, professional, and realistic. All transmissions should end with your unit ID.
+      </div>
+      <div class="callout callout-info">
+        <span class="callout-icon">💡</span>
+        <div><strong>Format:</strong> State your unit ID first, then the code. Example: <em>"Unit 4 to Dispatch — 10-20 is the intersection of Main and 5th."</em></div>
+      </div>
+      <div class="radio-grid">
+        <% let firstCat = true; %>
+        <% wiki.radio.forEach(function(r) { %>
+          <% if (r.isCategory) { %>
+            <% if (!firstCat) { %>
+            <div class="radio-row header">
+              <div class="radio-code">CODE</div>
+              <div class="radio-name">NAME</div>
+              <div class="radio-desc">MEANING</div>
+            </div>
+            <% } %>
+            <div class="radio-category-label">// <%= r.label %></div>
+            <div class="radio-row header">
+              <div class="radio-code">CODE</div>
+              <div class="radio-name">NAME</div>
+              <div class="radio-desc">MEANING</div>
+            </div>
+            <% firstCat = false; %>
+          <% } else { %>
+          <div class="radio-row">
+            <div class="radio-code"><%= r.code %></div>
+            <div class="radio-name"><%= r.name %></div>
+            <div class="radio-desc"><%= r.desc %></div>
+          </div>
+          <% } %>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- SESSION SCHEDULE -->
+    <div class="doc-section" id="schedule">
+      <div class="doc-section-header">
+        <span class="doc-section-icon">📅</span>
+        <div class="doc-section-title">Session Schedule</div>
+        <span class="doc-section-badge">Weekly Timetable</span>
+      </div>
+      <div class="doc-desc">
+        Shadow Construction runs regular weekly sessions. All times are Eastern Time (ET). Check Discord for any changes, cancellations, or special event sessions not listed here.
+      </div>
+      <div class="callout callout-warning">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>Attendance Policy:</strong> Members are expected to attend at least 2 sessions per week. If you cannot attend, post in <strong>#absences</strong> on Discord before the session starts.</div>
+      </div>
+      <div class="schedule-grid">
+        <div class="schedule-row header">
+          <div class="sch-cell">Day</div>
+          <div class="sch-cell">Session Type</div>
+          <div class="sch-cell">Time (ET)</div>
+          <div class="sch-cell">Access</div>
+        </div>
+        <% wiki.schedule.forEach(function(s) { %>
+        <div class="schedule-row">
+          <div class="sch-cell day"><%= s.day %></div>
+          <div class="sch-cell type"><%= s.type %></div>
+          <div class="sch-cell time"><%= s.time %></div>
+          <div class="sch-cell"><span class="status-pill <%= s.access %>"><%= s.accessLabel %></span></div>
+        </div>
+        <% }) %>
+      </div>
+      <div class="schedule-note">
+        <strong>Note:</strong> Session times may shift by up to 30 minutes. The host will post a ping in <strong>#session-announcements</strong> on Discord at least 15 minutes before start. Late arrivals are allowed up to 20 minutes in.
+      </div>
+    </div>
+
+    <!-- UNIFORM GUIDE -->
+    <div class="doc-section" id="uniform">
+      <div class="doc-section-header">
+        <span class="doc-section-icon">🦺</span>
+        <div class="doc-section-title">Uniform Guide</div>
+        <span class="doc-section-badge">Required Dress Code</span>
+      </div>
+      <div class="doc-desc">
+        All members must wear the correct uniform during official sessions. Using the wrong outfit or no outfit at all may result in being asked to leave the session until corrected. Uniform items are available in the Roblox catalog and linked in Discord.
+      </div>
+      <div class="callout callout-success">
+        <span class="callout-icon">✅</span>
+        <div>Uniform links are pinned in the <strong>#uniforms</strong> channel on Discord. Management can approve alternate items if an exact match is unavailable.</div>
+      </div>
+      <div class="uniform-grid">
+        <% wiki.uniforms.forEach(function(u) { %>
+        <div class="uniform-card">
+          <div class="uniform-role-name"><%= u.icon %> <%= u.role %> <span class="uniform-role-tag <%= u.tagClass %>" style="font-size:10px;padding:3px 8px;"><%= u.tagLabel %></span></div>
+          <div class="uniform-items">
+            <% u.items.forEach(function(item) { %>
+            <div class="uniform-item"><strong><%= item.label %>:</strong> <%= item.desc %></div>
+            <% }) %>
+          </div>
+          <div class="uniform-note"><%= u.note %></div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- RANKS & PROMOTIONS -->
+    <div class="doc-section" id="ranks">
+      <div class="doc-section-header">
+        <span class="doc-section-icon">⭐</span>
+        <div class="doc-section-title">Ranks & Promotions</div>
+        <span class="doc-section-badge">Rank Structure</span>
+      </div>
+      <div class="doc-desc">
+        Shadow Construction uses a structured rank system. Promotions are earned through attendance, performance, and conduct — not seniority alone. All promotions are approved by management at the Sunday briefing.
+      </div>
+      <div class="rank-doc-table">
+        <div class="rank-doc-row header">
+          <div class="rd-cell">T</div>
+          <div class="rd-cell">Rank</div>
+          <div class="rd-cell">Min. Time</div>
+          <div class="rd-cell">Requirements</div>
+          <div class="rd-cell">Permissions</div>
+        </div>
+        <% wiki.ranks.forEach(function(r) { %>
+        <div class="rank-doc-row">
+          <div class="rd-cell tier"><%= r.tier %></div>
+          <div class="rd-cell name <%= r.nameClass %>"><%= r.name %></div>
+          <div class="rd-cell time"><%= r.time %></div>
+          <div class="rd-cell reqs"><%= r.reqs %></div>
+          <div class="rd-cell perms"><%= r.perms %></div>
+        </div>
+        <% }) %>
+      </div>
+      <div class="callout callout-warning">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>Demotion Policy:</strong> Members with 2+ active strikes, consistent absences without notice, or a major conduct violation may be demoted one rank by management. A second major violation may result in removal.</div>
+      </div>
+      <h3 style="font-family:'Black Ops One',sans-serif;letter-spacing:2px;font-size:20px;margin:32px 0 16px;color:var(--white);">PROMOTION RULES</h3>
+      <div class="promo-rules">
+        <% wiki.promoRules.forEach(function(r) { %>
+        <div class="promo-rule">
+          <div class="promo-rule-title"><%= r.title %></div>
+          <div class="promo-rule-text"><%= r.text %></div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="wiki-footer">
+  <a href="/" class="wiki-footer-logo">SHADOW <span>CONST.</span></a>
+  <p>Shadow Construction Wiki · ER:LC Roleplay · Last updated 2025</p>
+  <p style="color:var(--border)">Fan group — not affiliated with Roblox or ER:LC devs</p>
+</div>
+
+<script>
+  const sections = ['radio','schedule','uniform','ranks'];
+  const links = document.querySelectorAll('.sidebar-link');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const id = entry.target.id;
+        const match = document.querySelector(`.sidebar-link[onclick="scrollTo('${id}')"]`);
+        if (match) match.classList.add('active');
+        else links[0].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+
+  sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
+  document.getElementById('overview') && obs.observe(document.getElementById('overview'));
+
+  function scrollTo(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function handleSearch(val) {
+    if (!val.trim()) return;
+    const term = val.toLowerCase();
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el && el.textContent.toLowerCase().includes(term)) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        break;
+      }
+    }
+  }
+
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; fadeObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.radio-row,.schedule-row,.uniform-card,.rank-doc-row,.promo-rule').forEach((el,i) => {
+    el.style.opacity='0'; el.style.transform='translateY(12px)';
+    el.style.transition=`opacity 0.4s ${i*0.04}s ease, transform 0.4s ${i*0.04}s ease`;
+    fadeObs.observe(el);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', {
+  title: 'Fleet Access — Shadow Construction',
+  fontsUrl: 'https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap',
+  cssFile: 'fleet.css'
+}) %>
+<style>
+  body { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+  .access-wrap { max-width:400px; width:100%; padding:20px; }
+  .access-card { background:var(--card); border:1px solid var(--border); border-radius:12px; padding:40px 36px; text-align:center; }
+  .access-logo { font-family:'Share Tech Mono',monospace; font-size:20px; color:var(--accent); letter-spacing:3px; }
+  .access-logo span { color:var(--muted); }
+  .access-title { font-size:26px; font-weight:700; color:var(--white); margin:20px 0 6px; letter-spacing:1px; }
+  .access-sub { color:var(--muted); font-size:13px; line-height:1.6; margin-bottom:24px; }
+  .access-label { display:inline-block; font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--accent); background:rgba(255,170,0,0.08); border:1px solid rgba(255,170,0,0.2); padding:5px 12px; border-radius:4px; margin-bottom:20px; letter-spacing:1px; }
+  .access-input { width:100%; background:#111; border:1px solid var(--border); color:var(--white); padding:12px 16px; border-radius:6px; font-size:14px; box-sizing:border-box; margin-bottom:12px; font-family:'Rajdhani',sans-serif; }
+  .access-input:focus { outline:none; border-color:var(--accent); }
+  .access-btn { width:100%; background:var(--accent); color:#000; border:none; padding:13px; border-radius:6px; font-weight:700; font-size:14px; cursor:pointer; letter-spacing:2px; font-family:'Rajdhani',sans-serif; }
+  .access-btn:hover { opacity:0.88; }
+  .access-error { background:rgba(255,60,60,0.1); border:1px solid rgba(255,60,60,0.25); color:#ff6b6b; padding:10px 14px; border-radius:6px; font-size:13px; margin-bottom:18px; }
+  .access-hint { color:var(--muted); font-size:12px; margin-top:18px; }
+  .access-hint a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+
+<div class="access-wrap">
+  <div class="access-card">
+    <div class="access-logo">SHADOW <span>CONST.</span></div>
+    <div class="access-title">🚛 Fleet Access</div>
+
+    <% if (error) { %>
+      <div style="margin-top:16px;" class="access-error"><%= error %></div>
+      <% if (!needsPassword) { %>
+        <p class="access-hint">Contact management for a valid link.</p>
+      <% } %>
+    <% } %>
+
+    <% if (needsPassword) { %>
+      <% if (label) { %><div class="access-label">// <%= label %></div><% } %>
+      <p class="access-sub">Enter the access password provided by your server management.</p>
+      <form method="POST" action="/fleet/access/<%= token %>">
+        <input class="access-input" type="password" name="password" placeholder="Enter access password" autofocus required>
+        <button class="access-btn" type="submit">UNLOCK FLEET →</button>
+      </form>
+      <p class="access-hint">Already have a full account? <a href="/login">Sign in →</a></p>
+    <% } %>
+  </div>
+</div>
+
+</body>
+</html>

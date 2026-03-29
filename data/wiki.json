@@ -1,0 +1,406 @@
+{
+  "schedule": [
+    {
+      "day": "Saturday",
+      "type": "Training",
+      "time": "",
+      "access": "pill-limited",
+      "accessLabel": "All members"
+    },
+    {
+      "day": "Everyday",
+      "type": "Normal Sessions",
+      "time": "",
+      "access": "pill-open",
+      "accessLabel": "All members"
+    }
+  ],
+  "radio": [
+    {
+      "isCategory": true,
+      "label": "STATUS CODES",
+      "code": "",
+      "name": "",
+      "desc": ""
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-4",
+      "name": "Acknowledged",
+      "desc": "Message received and understood."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-6",
+      "name": "Busy",
+      "desc": "Crew member is occupied, stand by."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-7",
+      "name": "Out of Service",
+      "desc": "Unit is going offline / leaving session."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-8",
+      "name": "In Service",
+      "desc": "Unit is online and available for assignment."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-9",
+      "name": "Repeat",
+      "desc": "Please repeat your last transmission."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-20",
+      "name": "Location",
+      "desc": "State your current location. \"What's your 10-20?\""
+    },
+    {
+      "isCategory": true,
+      "label": "CONSTRUCTION-SPECIFIC CODES",
+      "code": "",
+      "name": "",
+      "desc": ""
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-51",
+      "name": "Site Active",
+      "desc": "Construction site is open and crew is on location."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-52",
+      "name": "Road Closure",
+      "desc": "Road is closed to civilian traffic. Barriers deployed."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-53",
+      "name": "Road Reopened",
+      "desc": "Closure has been lifted. Traffic may resume."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-54",
+      "name": "Equipment En Route",
+      "desc": "Heavy machinery is moving to or from the job site."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-55",
+      "name": "Hazard On Site",
+      "desc": "Danger present — all units use caution in the area."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-56",
+      "name": "Site Secure",
+      "desc": "Job site is cleared and secured. Session complete."
+    },
+    {
+      "isCategory": true,
+      "label": "EMERGENCY CODES",
+      "code": "",
+      "name": "",
+      "desc": ""
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-33",
+      "name": "Emergency",
+      "desc": "Urgent situation — all units clear the channel immediately."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "10-35",
+      "name": "Confidential Info",
+      "desc": "Sensitive information — switch to private channel."
+    },
+    {
+      "isCategory": false,
+      "label": "",
+      "code": "Signal 0",
+      "name": "Out of Character",
+      "desc": "Crew member needs to break RP briefly. Notify supervisor."
+    }
+  ],
+  "ranks": [
+    {
+      "tier": "T5",
+      "name": "⭐ CEO / Founder",
+      "nameClass": "gold",
+      "time": "—",
+      "reqs": "Founder rank. Not earnable through promotions.",
+      "perms": "Full authority. All sessions. Final decisions."
+    },
+    {
+      "tier": "T4",
+      "name": "🔱 Director",
+      "nameClass": "gold",
+      "time": "—",
+      "reqs": "Appointed by CEO only. Exceptional track record required.",
+      "perms": "Manage departments, approve promotions up to Foreman."
+    },
+    {
+      "tier": "T3",
+      "name": "🪖 Project Manager",
+      "nameClass": "silver",
+      "time": "4 weeks",
+      "reqs": "Must be Foreman for 4 weeks. Lead 3+ sessions. Approved by Director.",
+      "perms": "Host sessions, assign roles, manage all site workers."
+    },
+    {
+      "tier": "T3",
+      "name": "📋 Foreman",
+      "nameClass": "silver",
+      "time": "3 weeks",
+      "reqs": "Must be Sr. Worker for 3 weeks. Pass foreman evaluation. Zero active strikes.",
+      "perms": "Supervise workers, report incidents, assign tasks on site."
+    },
+    {
+      "tier": "T2",
+      "name": "🚛 Senior Worker",
+      "nameClass": "bronze",
+      "time": "2 weeks",
+      "reqs": "Worker for 2 weeks. 10+ sessions attended. Consistent performance.",
+      "perms": "Access equipment operator role. Mentor trainees."
+    },
+    {
+      "tier": "T2",
+      "name": "🦺 Worker",
+      "nameClass": "bronze",
+      "time": "1 week",
+      "reqs": "Complete onboarding. Pass uniform check. Attend 3+ sessions as Trainee.",
+      "perms": "Access all standard roles. Attend all sessions."
+    },
+    {
+      "tier": "T1",
+      "name": "🟢 Trainee",
+      "nameClass": "green",
+      "time": "—",
+      "reqs": "Application accepted. Starting rank for all new members.",
+      "perms": "Attend training sessions. Limited site roles."
+    }
+  ],
+  "promoRules": [
+    {
+      "title": "Nomination Window",
+      "text": "Promotions are reviewed every Sunday at the Management Briefing. You must be nominated by a Foreman or above to be considered."
+    },
+    {
+      "title": "No Self-Nomination",
+      "text": "You cannot nominate yourself for promotion. Asking management for a promotion directly may disqualify you from that cycle."
+    },
+    {
+      "title": "Strike Freeze",
+      "text": "If you have an active strike on your record, you are ineligible for promotion until the strike expires or is cleared by management."
+    },
+    {
+      "title": "Time-in-Rank",
+      "text": "Minimum time-in-rank requirements (see table above) must be fully met. Exceptions can only be made by the CEO or Director."
+    },
+    {
+      "title": "Attendance Requirement",
+      "text": "You must have attended at least 60% of sessions during your current rank period to be eligible for promotion review."
+    },
+    {
+      "title": "Conduct Standard",
+      "text": "Promotions are based on attitude, leadership, teamwork, and quality RP — not just how long you've been in the group."
+    }
+  ],
+  "uniforms": [
+    {
+      "icon": "🦺",
+      "role": "Site Worker",
+      "tagLabel": "Worker",
+      "tagClass": "badge-worker",
+      "items": [
+        {
+          "label": "Hard Hat",
+          "desc": "Yellow safety helmet"
+        },
+        {
+          "label": "Vest",
+          "desc": "High-vis orange or yellow safety vest"
+        },
+        {
+          "label": "Shirt",
+          "desc": "Plain white or grey shirt underneath"
+        },
+        {
+          "label": "Pants",
+          "desc": "Dark work pants (black or navy)"
+        },
+        {
+          "label": "Boots",
+          "desc": "Black or brown work boots"
+        }
+      ],
+      "note": "No accessories that obscure the vest. No hats other than the hard hat during sessions."
+    },
+    {
+      "icon": "🚧",
+      "role": "Traffic Control",
+      "tagLabel": "Worker",
+      "tagClass": "badge-worker",
+      "items": [
+        {
+          "label": "Hard Hat",
+          "desc": "Orange safety helmet"
+        },
+        {
+          "label": "Vest",
+          "desc": "Bright orange reflective vest (traffic variant)"
+        },
+        {
+          "label": "Shirt",
+          "desc": "Plain white shirt underneath"
+        },
+        {
+          "label": "Pants",
+          "desc": "Dark work pants"
+        },
+        {
+          "label": "Prop",
+          "desc": "Traffic flag or stop/slow paddle if available"
+        }
+      ],
+      "note": "Traffic Control must always be visually distinct from standard workers on site."
+    },
+    {
+      "icon": "📋",
+      "role": "Foreman",
+      "tagLabel": "Senior",
+      "tagClass": "badge-senior",
+      "items": [
+        {
+          "label": "Hard Hat",
+          "desc": "White hard hat (distinguishes from crew)"
+        },
+        {
+          "label": "Vest",
+          "desc": "Yellow safety vest with stripes"
+        },
+        {
+          "label": "Shirt",
+          "desc": "Shadow Construction branded shirt if available"
+        },
+        {
+          "label": "Pants",
+          "desc": "Dark cargo or work pants"
+        },
+        {
+          "label": "Clipboard",
+          "desc": "Clipboard prop recommended for immersion"
+        }
+      ],
+      "note": "White hard hat is required to visually identify you as Foreman to the crew."
+    },
+    {
+      "icon": "🚛",
+      "role": "Equipment Operator",
+      "tagLabel": "Sr. Worker",
+      "tagClass": "badge-worker",
+      "items": [
+        {
+          "label": "Hard Hat",
+          "desc": "Yellow or orange helmet"
+        },
+        {
+          "label": "Vest",
+          "desc": "High-vis vest (any approved color)"
+        },
+        {
+          "label": "Shirt",
+          "desc": "Dark work shirt or branded tee"
+        },
+        {
+          "label": "Pants",
+          "desc": "Dark cargo pants"
+        },
+        {
+          "label": "Gloves",
+          "desc": "Work glove accessory recommended"
+        }
+      ],
+      "note": "Operators must stay in uniform even when inside vehicles during sessions."
+    },
+    {
+      "icon": "🪖",
+      "role": "Project Manager",
+      "tagLabel": "Senior",
+      "tagClass": "badge-senior",
+      "items": [
+        {
+          "label": "Hard Hat",
+          "desc": "White hard hat with \"PM\" label if possible"
+        },
+        {
+          "label": "Vest",
+          "desc": "Optional — vest or branded jacket"
+        },
+        {
+          "label": "Shirt",
+          "desc": "Shadow Construction official shirt"
+        },
+        {
+          "label": "Pants",
+          "desc": "Smart dark trousers or cargo pants"
+        },
+        {
+          "label": "ID Badge",
+          "desc": "Name tag or badge prop if available"
+        }
+      ],
+      "note": "Project Managers represent the company image — dress to reflect that."
+    },
+    {
+      "icon": "🪖",
+      "role": "Safety Officer",
+      "tagLabel": "Worker",
+      "tagClass": "badge-worker",
+      "items": [
+        {
+          "label": "Hard Hat",
+          "desc": "Green hard hat (industry standard for safety)"
+        },
+        {
+          "label": "Vest",
+          "desc": "Green or lime safety vest"
+        },
+        {
+          "label": "Shirt",
+          "desc": "White or grey shirt underneath"
+        },
+        {
+          "label": "Pants",
+          "desc": "Dark work pants"
+        },
+        {
+          "label": "Prop",
+          "desc": "Clipboard or safety sign prop"
+        }
+      ],
+      "note": "Green hat and vest are key — they signal \"safety\" to all crew on the site."
+    }
+  ]
+}

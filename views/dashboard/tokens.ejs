@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: 'Fleet Tokens — Dashboard',
+  fontsUrl: 'https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap',
+  cssFile: 'dashboard.css'
+}) %>
+<style>
+  .token-list { display:flex; flex-direction:column; gap:10px; margin-bottom:28px; }
+  .token-row { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:14px 18px; display:grid; grid-template-columns:1fr auto auto; gap:12px; align-items:center; }
+  .token-row.expired { opacity:.5; }
+  .token-label { font-weight:600; color:var(--white); font-size:14px; }
+  .token-meta  { font-family:'Share Tech Mono',monospace; font-size:11px; color:var(--muted); margin-top:3px; }
+  .token-url   { font-family:'Share Tech Mono',monospace; font-size:12px; color:var(--accent); background:rgba(255,170,0,0.07); padding:5px 10px; border-radius:4px; word-break:break-all; }
+  .token-badges { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .token-badge { font-size:10px; padding:3px 8px; border-radius:4px; font-weight:600; letter-spacing:.5px; }
+  .badge-pw    { background:rgba(255,170,0,0.15); color:var(--accent); border:1px solid rgba(255,170,0,0.3); }
+  .badge-open  { background:rgba(80,200,80,0.12); color:#60cc60; border:1px solid rgba(80,200,80,0.25); }
+  .badge-exp   { background:rgba(255,60,60,0.1); color:#ff6b6b; border:1px solid rgba(255,60,60,0.2); }
+  .badge-nexp  { background:rgba(100,100,100,0.15); color:var(--muted); border:1px solid var(--border); }
+  .copy-btn-sm { background:var(--bg); border:1px solid var(--border); color:var(--muted); padding:5px 10px; border-radius:4px; cursor:pointer; font-size:12px; }
+  .copy-btn-sm:hover { border-color:var(--accent); color:var(--accent); }
+  .del-form button { background:rgba(255,60,60,0.1); border:1px solid rgba(255,60,60,0.25); color:#ff6b6b; padding:7px 14px; border-radius:4px; cursor:pointer; font-size:12px; font-weight:600; }
+  .del-form button:hover { background:rgba(255,60,60,0.2); }
+  .gen-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+  @media (max-width:680px) { .gen-grid { grid-template-columns:1fr; } }
+  .empty-msg { color:var(--muted); font-size:13px; padding:20px 0; }
+  .toast-sm { position:fixed; bottom:24px; right:24px; background:var(--accent); color:#000; padding:10px 18px; border-radius:6px; font-weight:700; font-size:13px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:999; }
+  .toast-sm.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/dashboard" class="topbar-brand">SHADOW <span>CONSTRUCTION</span></a>
+  <span class="topbar-badge">DASHBOARD</span>
+  <div class="topbar-right">
+    <span class="topbar-user">Signed in as <span><%= user.username %></span></span>
+    <a href="/logout" class="topbar-link danger">Sign Out</a>
+  </div>
+</div>
+
+<div class="dash-layout">
+  <%- include('../partials/dash-nav', { page: 'tokens' }) %>
+
+  <main class="dash-main">
+    <% if (flash.success && flash.success.length) { %>
+      <div class="flash flash-success">✓ <%= flash.success[0] %></div>
+    <% } %>
+    <% if (flash.error && flash.error.length) { %>
+      <div class="flash flash-error">⚠ <%= flash.error[0] %></div>
+    <% } %>
+
+    <div class="page-header">
+      <div class="page-eyebrow">// Temporary Access</div>
+      <div class="page-title">FLEET <span>TOKENS</span></div>
+      <div class="page-desc">Share fleet access with server operators without giving them a full account.</div>
+    </div>
+
+    <!-- ACTIVE TOKENS -->
+    <div class="form-card" style="margin-bottom:20px;">
+      <div class="section-title" style="margin-bottom:16px;">// Active Tokens (<%= tokens.length %>)</div>
+
+      <% if (!tokens.length) { %>
+        <p class="empty-msg">No tokens yet. Generate one below.</p>
+      <% } else { %>
+      <div class="token-list">
+        <% tokens.forEach(function(t) { %>
+        <div class="token-row <%= t.expired ? 'expired' : '' %>">
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+              <div class="token-label"><%= t.label %></div>
+              <div class="token-badges">
+                <% if (t.passwordHash) { %>
+                  <span class="token-badge badge-pw">🔑 Password</span>
+                <% } else { %>
+                  <span class="token-badge badge-open">🔓 No Password</span>
+                <% } %>
+                <% if (t.expired) { %>
+                  <span class="token-badge badge-exp">Expired</span>
+                <% } else if (t.expiresAt) { %>
+                  <span class="token-badge badge-nexp">Expires <%= new Date(t.expiresAt).toLocaleString() %></span>
+                <% } else { %>
+                  <span class="token-badge badge-nexp">Never expires</span>
+                <% } %>
+              </div>
+            </div>
+            <div class="token-url" id="url-<%= t.token %>">/fleet/access/<%= t.token %></div>
+            <div class="token-meta">Created <%= new Date(t.createdAt).toLocaleString() %></div>
+          </div>
+          <button class="copy-btn-sm" onclick="copyToken('<%= t.token %>')">⎘ Copy</button>
+          <form method="POST" action="/dashboard/tokens/<%= t.token %>/delete" class="del-form"
+                onsubmit="return confirm('Delete this token? The link will stop working.')">
+            <button type="submit">Delete</button>
+          </form>
+        </div>
+        <% }) %>
+      </div>
+      <% } %>
+    </div>
+
+    <!-- GENERATE NEW TOKEN -->
+    <div class="form-card">
+      <div class="section-title" style="margin-bottom:16px;">// Generate New Token</div>
+      <form method="POST" action="/dashboard/tokens/create">
+        <div class="gen-grid" style="margin-bottom:14px;">
+          <div class="form-group">
+            <label class="form-label">Label <span style="color:var(--muted);font-weight:400;">(description)</span></label>
+            <input class="form-input" type="text" name="label" placeholder="e.g. Pheonix RP Server" maxlength="80">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Access Password <span style="color:var(--muted);font-weight:400;">(optional)</span></label>
+            <input class="form-input" type="text" name="tokenpass" placeholder="Leave blank for open access" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Expires After</label>
+            <select class="form-input" name="expiry">
+              <option value="1h">1 hour</option>
+              <option value="6h">6 hours</option>
+              <option value="24h" selected>24 hours</option>
+              <option value="3d">3 days</option>
+              <option value="7d">7 days</option>
+              <option value="never">Never</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">🔗 Generate Token</button>
+      </form>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast-sm" id="toast">COPIED!</div>
+
+<script>
+function copyToken(token) {
+  const url = window.location.origin + '/fleet/access/' + token;
+  navigator.clipboard.writeText(url).then(() => {
+    const t = document.getElementById('toast');
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 1600);
+  });
+}
+</script>
+</body>
+</html>

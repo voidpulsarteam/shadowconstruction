@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('partials/head', {
+  title: 'Login — Shadow Construction',
+  fontsUrl: 'https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap',
+  cssFile: 'fleet.css'
+}) %>
+<style>
+  body { display:flex; align-items:center; justify-content:center; min-height:100vh; }
+  body::before {
+    content:''; position:fixed; inset:0; pointer-events:none;
+    background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(245,196,0,0.06) 0%, transparent 70%);
+  }
+  .login-wrap { position:relative; z-index:2; width:100%; max-width:440px; padding:20px; }
+  .login-card { background:var(--card); border:1px solid var(--border-bright); overflow:hidden; }
+  .login-card::before {
+    content:''; display:block; height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2),var(--cyan));
+  }
+  .login-inner { padding:44px 40px 36px; }
+  .login-logo  { text-align:center; margin-bottom:32px; }
+  .login-logo-name { font-family:'Orbitron',sans-serif; font-size:18px; font-weight:900; letter-spacing:3px; color:white; }
+  .login-logo-name span { color:var(--accent); -webkit-text-fill-color:var(--accent); }
+  .login-logo-sub { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:4px; color:var(--muted); margin-top:5px; }
+  .login-divider { height:1px; background:var(--border-bright); margin-bottom:24px; }
+  .login-label { font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:4px; color:var(--accent2); text-transform:uppercase; margin-bottom:6px; }
+  .login-input {
+    width:100%; background:var(--surface); border:1px solid var(--border-bright); color:var(--text);
+    font-family:'Share Tech Mono',monospace; font-size:14px; padding:11px 14px; outline:none; letter-spacing:1px;
+    transition:border-color 0.2s, box-shadow 0.2s; margin-bottom:12px;
+  }
+  .login-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(245,196,0,0.08); }
+  .login-btn {
+    width:100%; background:var(--accent); border:none; color:#0c0e0f;
+    font-family:'Orbitron',sans-serif; font-size:11px; font-weight:700; letter-spacing:4px; padding:13px;
+    cursor:pointer; text-transform:uppercase; transition:opacity 0.2s, transform 0.15s; margin-top:4px;
+    clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%);
+  }
+  .login-btn:hover { opacity:0.88; transform:translateY(-1px); }
+  .login-error { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--danger); letter-spacing:2px; margin-top:12px; text-align:center; }
+  .login-footer { border-top:1px solid var(--border); padding:12px 40px; font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--muted2); letter-spacing:2px; text-align:center; }
+  .back-link { display:block; text-align:center; margin-top:16px; font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); text-decoration:none; letter-spacing:1px; transition:color 0.15s; }
+  .back-link:hover { color:var(--accent2); }
+</style>
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-inner">
+      <div class="login-logo">
+        <img src="https://i.imgur.com/BCwBi9G.png" style="width:60px;height:60px;object-fit:contain;display:block;margin:0 auto 14px;filter:drop-shadow(0 0 18px rgba(245,196,0,0.4));" onerror="this.style.display='none'" alt="">
+        <div class="login-logo-name">SHADOW <span>CONSTRUCTION</span></div>
+        <div class="login-logo-sub">ADMIN · CREW ACCESS</div>
+      </div>
+
+      <div class="login-divider"></div>
+
+      <% if (error && error.length) { %>
+        <div class="login-error">// <%= error[0] %></div>
+      <% } %>
+
+      <form method="POST" action="/login">
+        <div class="login-label">Username</div>
+        <input class="login-input" type="text" name="username" placeholder="USERNAME" autocomplete="username" autocapitalize="none" required>
+        <div class="login-label">Password</div>
+        <input class="login-input" type="password" name="password" placeholder="PASSWORD" autocomplete="current-password" required>
+        <button class="login-btn" type="submit">Sign In →</button>
+      </form>
+    </div>
+    <div class="login-footer">SHADOW CONSTRUCTION · INTERNAL ACCESS</div>
+  </div>
+  <a class="back-link" href="/">← Back to main site</a>
+</div>
+</body>
+</html>

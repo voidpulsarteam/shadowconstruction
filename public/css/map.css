@@ -1,0 +1,236 @@
+:root {
+  --bg:      #0c0e0f;
+  --surface: #131618;
+  --panel:   #1a1d1f;
+  --border:  #2a2d30;
+  --yellow:  #f5c400;
+  --yellow-dim: #c49b00;
+  --orange:  #e8730a;
+  --white:   #edeae3;
+  --gray:    #7a7d82;
+  --light:   #b0b3b8;
+  --danger:  #d94f2b;
+  --green:   #3ddc6e;
+
+  /* marker colors */
+  --m-active:  #f5c400;
+  --m-closure: #e8730a;
+  --m-staging: #64b5f6;
+  --m-planned: #9e9e9e;
+  --m-complete:#3ddc6e;
+  --m-hazard:  #d94f2b;
+}
+
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { background:var(--bg); color:var(--white); font-family:'Rajdhani',sans-serif; overflow:hidden; height:100vh; }
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:9999;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);
+}
+
+/* ── TOP NAV ── */
+.topnav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  height:56px; background:rgba(12,14,15,0.97); border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
+  display:flex; align-items:center; padding:0 24px; gap:16px;
+}
+.topnav-back {
+  display:flex; align-items:center; gap:8px; text-decoration:none;
+  font-family:'Share Tech Mono',monospace; font-size:12px; color:var(--gray);
+  letter-spacing:1px; padding:6px 12px; border:1px solid var(--border); border-radius:2px;
+  transition:color .2s, border-color .2s;
+}
+.topnav-back:hover { color:var(--yellow); border-color:var(--yellow); }
+.topnav-divider { width:1px; height:24px; background:var(--border); flex-shrink:0; }
+.topnav-logo { font-family:'Black Ops One',sans-serif; font-size:16px; letter-spacing:2px; color:var(--white); text-decoration:none; }
+.topnav-logo span { color:var(--yellow); }
+.topnav-label {
+  font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:3px;
+  color:var(--gray); background:var(--panel); padding:4px 10px; border:1px solid var(--border); border-radius:2px;
+}
+.topnav-links { margin-left:auto; display:flex; align-items:center; gap:8px; }
+.topnav-link {
+  display:flex; align-items:center; gap:6px; text-decoration:none;
+  font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--gray);
+  letter-spacing:1px; padding:5px 12px; border:1px solid var(--border); border-radius:2px;
+  transition:color .2s, border-color .2s;
+}
+.topnav-link:hover { color:var(--yellow); border-color:var(--yellow); }
+
+/* ── MAP LAYOUT ── */
+.map-layout {
+  display:flex;
+  margin-top:56px;
+  height:calc(100vh - 56px);
+}
+
+/* ── SIDEBAR / KEY ── */
+.map-sidebar {
+  width:300px; flex-shrink:0;
+  background:var(--surface); border-right:1px solid var(--border);
+  overflow-y:auto; display:flex; flex-direction:column;
+  scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+}
+.map-sidebar::-webkit-scrollbar { width:4px; }
+.map-sidebar::-webkit-scrollbar-thumb { background:var(--border); }
+
+.sidebar-block { padding:18px 20px; border-bottom:1px solid var(--border); }
+.sidebar-eyebrow {
+  font-family:'Share Tech Mono',monospace; font-size:10px; letter-spacing:3px;
+  color:var(--gray); margin-bottom:12px;
+}
+.sidebar-title {
+  font-family:'Black Ops One',sans-serif; font-size:18px; letter-spacing:2px;
+  color:var(--white); margin-bottom:4px;
+}
+.sidebar-title span { color:var(--yellow); }
+.sidebar-sub { font-size:12px; color:var(--gray); line-height:1.6; }
+
+/* legend */
+.legend-item {
+  display:flex; align-items:center; gap:10px;
+  padding:7px 0; cursor:pointer; user-select:none;
+  border-radius:3px; transition:opacity .15s;
+}
+.legend-item.hidden { opacity:.35; }
+.legend-dot {
+  width:12px; height:12px; border-radius:50%; flex-shrink:0;
+  box-shadow:0 0 6px currentColor;
+}
+.legend-dot.active   { background:var(--m-active);  color:var(--m-active);  }
+.legend-dot.closure  { background:var(--m-closure); color:var(--m-closure); }
+.legend-dot.staging  { background:var(--m-staging); color:var(--m-staging); }
+.legend-dot.planned  { background:var(--m-planned); color:var(--m-planned); }
+.legend-dot.complete { background:var(--m-complete);color:var(--m-complete);}
+.legend-dot.hazard   { background:var(--m-hazard);  color:var(--m-hazard);  }
+.legend-label { font-size:13px; font-weight:600; color:var(--light); flex:1; }
+.legend-count {
+  font-family:'Share Tech Mono',monospace; font-size:10px;
+  color:var(--gray); background:var(--panel); padding:2px 7px; border-radius:3px;
+}
+
+/* job list */
+.job-list-item {
+  display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+  cursor:pointer; border-bottom:1px solid rgba(255,255,255,0.04);
+  transition:background .15s; border-radius:3px;
+}
+.job-list-item:last-child { border-bottom:none; }
+.job-list-item:hover { background:rgba(245,196,0,0.04); }
+.job-list-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.job-list-name { font-size:12px; font-weight:600; color:var(--light); line-height:1.4; }
+.job-list-meta { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--gray); margin-top:2px; }
+
+/* stats */
+.stat-row { display:flex; gap:8px; }
+.stat-chip {
+  flex:1; background:var(--panel); border:1px solid var(--border); border-radius:4px;
+  padding:10px 12px; text-align:center;
+}
+.stat-chip-num { font-family:'Black Ops One',sans-serif; font-size:22px; color:var(--yellow); }
+.stat-chip-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--gray); letter-spacing:1px; margin-top:2px; }
+
+/* ── MAP MAIN ── */
+.map-main {
+  flex:1; position:relative; overflow:hidden;
+  background:var(--bg);
+  background-image:
+    linear-gradient(rgba(245,196,0,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245,196,0,0.025) 1px, transparent 1px);
+  background-size:60px 60px;
+}
+
+.map-toolbar {
+  position:absolute; top:16px; right:16px; z-index:50;
+  display:flex; flex-direction:column; gap:6px;
+}
+.map-btn {
+  width:36px; height:36px; background:var(--surface); border:1px solid var(--border);
+  color:var(--light); border-radius:4px; cursor:pointer; font-size:16px;
+  display:flex; align-items:center; justify-content:center;
+  transition:border-color .2s, color .2s;
+}
+.map-btn:hover { border-color:var(--yellow); color:var(--yellow); }
+.map-btn-sep { height:1px; background:var(--border); margin:2px 0; }
+
+.map-coords {
+  position:absolute; bottom:16px; left:16px; z-index:50;
+  font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--gray);
+  background:rgba(12,14,15,0.8); border:1px solid var(--border);
+  padding:5px 10px; border-radius:3px; pointer-events:none;
+}
+
+/* ── MAP CANVAS ── */
+.map-canvas-wrap {
+  position:absolute; inset:0;
+  cursor:grab; overflow:hidden;
+}
+.map-canvas-wrap:active { cursor:grabbing; }
+.map-canvas-inner {
+  position:absolute;
+  transform-origin:0 0;
+  will-change:transform;
+}
+#mapSVG {
+  display:block;
+  user-select:none;
+}
+
+/* SVG marker styles */
+.zone-fill { transition:opacity .2s; }
+.zone-fill:hover { opacity:0.85 !important; }
+.road { stroke-linecap:round; stroke-linejoin:round; }
+.marker-group { cursor:pointer; }
+.marker-group:hover .marker-ring { opacity:1; }
+.marker-ring { opacity:0; transition:opacity .2s; }
+.marker-pulse {
+  transform-origin:center;
+  animation:markerPulse 2s ease-in-out infinite;
+}
+@keyframes markerPulse { 0%,100%{opacity:.5;transform:scale(1)} 50%{opacity:0;transform:scale(2.2)} }
+
+/* ── DETAIL PANEL ── */
+.detail-panel {
+  position:absolute; bottom:0; right:0; width:340px;
+  background:var(--surface); border-top:1px solid var(--border); border-left:1px solid var(--border);
+  transform:translateY(100%); transition:transform .25s ease;
+  z-index:60;
+}
+.detail-panel.open { transform:translateY(0); }
+.detail-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 18px 12px; border-bottom:1px solid var(--border);
+}
+.detail-type-badge {
+  font-family:'Share Tech Mono',monospace; font-size:9px; letter-spacing:2px;
+  padding:3px 8px; border-radius:3px; font-weight:700;
+}
+.detail-close {
+  background:none; border:none; color:var(--gray); cursor:pointer; font-size:16px; padding:2px 6px;
+  border-radius:3px; transition:color .2s;
+}
+.detail-close:hover { color:var(--white); }
+.detail-body { padding:16px 18px; }
+.detail-name {
+  font-family:'Black Ops One',sans-serif; font-size:18px; letter-spacing:1px;
+  color:var(--white); margin-bottom:6px; line-height:1.3;
+}
+.detail-desc { font-size:13px; color:var(--light); line-height:1.6; margin-bottom:14px; }
+.detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.detail-stat { background:var(--panel); border:1px solid var(--border); border-radius:4px; padding:8px 12px; }
+.detail-stat-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--gray); letter-spacing:1px; margin-bottom:3px; }
+.detail-stat-val { font-size:14px; font-weight:700; color:var(--white); }
+
+/* caution bar */
+.caution-strip {
+  position:absolute; bottom:0; left:0; right:0; height:4px;
+  background:repeating-linear-gradient(-45deg, var(--yellow) 0,var(--yellow) 8px,var(--bg) 8px,var(--bg) 16px);
+  opacity:.6; pointer-events:none;
+}
+
+@media (max-width:768px) {
+  .map-sidebar { display:none; }
+  .detail-panel { width:100%; }
+}

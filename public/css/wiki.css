@@ -1,0 +1,226 @@
+:root {
+  --bg: #0c0e0f;
+  --surface: #131618;
+  --panel: #1a1d1f;
+  --panel2: #1e2123;
+  --border: #2a2d30;
+  --yellow: #f5c400;
+  --yellow-dim: #c49b00;
+  --orange: #e8730a;
+  --white: #edeae3;
+  --gray: #7a7d82;
+  --light: #b0b3b8;
+  --danger: #d94f2b;
+  --green: #3ddc6e;
+  --sidebar-w: 260px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* ── TOP NAV ── */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 56px; background: rgba(12,14,15,0.97); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+}
+.topnav-back {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
+  font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--gray);
+  letter-spacing: 1px; transition: color 0.2s; padding: 6px 12px; border: 1px solid var(--border); border-radius: 2px;
+}
+.topnav-back:hover { color: var(--yellow); border-color: var(--yellow); }
+.topnav-divider { width: 1px; height: 24px; background: var(--border); }
+.topnav-logo { font-family: 'Black Ops One', sans-serif; font-size: 16px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+.topnav-logo span { color: var(--yellow); }
+.topnav-label {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px;
+  color: var(--gray); background: var(--panel); padding: 4px 10px; border-radius: 2px;
+  border: 1px solid var(--border);
+}
+.topnav-search {
+  margin-left: auto; display: flex; align-items: center; gap: 8px;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 3px;
+  padding: 6px 14px; width: 220px; transition: border-color 0.2s;
+}
+.topnav-search:focus-within { border-color: var(--yellow); }
+.topnav-search input { background: none; border: none; outline: none; color: var(--white); font-family: 'Rajdhani', sans-serif; font-size: 14px; width: 100%; }
+.topnav-search input::placeholder { color: var(--gray); }
+.search-icon { color: var(--gray); font-size: 13px; flex-shrink: 0; }
+
+/* ── LAYOUT ── */
+.wiki-layout { display: flex; margin-top: 56px; min-height: calc(100vh - 56px); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w); flex-shrink: 0; position: fixed; top: 56px; bottom: 0; left: 0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 24px 0;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.sidebar-section { margin-bottom: 8px; }
+.sidebar-heading {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--gray); text-transform: uppercase; padding: 8px 20px 6px;
+}
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 20px; text-decoration: none; font-size: 14px; font-weight: 500;
+  color: var(--light); transition: background 0.15s, color 0.15s; cursor: pointer;
+  border-left: 3px solid transparent;
+}
+.sidebar-link:hover { background: var(--panel); color: var(--white); }
+.sidebar-link.active { background: var(--panel); color: var(--yellow); border-left-color: var(--yellow); }
+.sidebar-link .link-icon { font-size: 15px; flex-shrink: 0; opacity: 0.8; }
+.sidebar-divider { height: 1px; background: var(--border); margin: 12px 20px; }
+
+/* ── MAIN CONTENT ── */
+.wiki-main { margin-left: var(--sidebar-w); flex: 1; padding: 48px 60px 80px; max-width: 960px; }
+
+/* ── WIKI HEADER ── */
+.wiki-hero {
+  background: var(--panel); border: 1px solid var(--border);
+  padding: 40px 48px; margin-bottom: 48px; position: relative; overflow: hidden;
+}
+.wiki-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(245,196,0,0.025) 18px, rgba(245,196,0,0.025) 20px);
+}
+.wiki-hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+.wiki-hero-content { position: relative; }
+.wiki-breadcrumb { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); letter-spacing: 2px; margin-bottom: 12px; }
+.wiki-breadcrumb a { color: var(--yellow); text-decoration: none; }
+.wiki-hero h1 { font-family: 'Black Ops One', sans-serif; font-size: 44px; letter-spacing: 3px; line-height: 1; color: var(--white); margin-bottom: 12px; }
+.wiki-hero h1 span { color: var(--yellow); }
+.wiki-hero p { font-size: 16px; color: var(--light); max-width: 600px; line-height: 1.6; }
+.wiki-doc-count { margin-top: 20px; display: flex; gap: 16px; flex-wrap: wrap; }
+.doc-chip { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 5px 12px; border: 1px solid var(--border); color: var(--gray); border-radius: 2px; }
+
+/* ── DOC SECTIONS ── */
+.doc-section { margin-bottom: 72px; scroll-margin-top: 80px; }
+.doc-section-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 28px;
+  padding-bottom: 16px; border-bottom: 2px solid var(--border); position: relative;
+}
+.doc-section-header::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 60px; height: 2px; background: var(--yellow); }
+.doc-section-icon { font-size: 28px; }
+.doc-section-title { font-family: 'Black Ops One', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--white); }
+.doc-section-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 4px 10px; background: rgba(245,196,0,0.1); color: var(--yellow); border: 1px solid rgba(245,196,0,0.25); border-radius: 2px; margin-left: auto; }
+
+.doc-desc { font-size: 15px; color: var(--light); line-height: 1.7; margin-bottom: 28px; background: var(--panel); border-left: 3px solid var(--yellow); padding: 16px 20px; }
+
+/* ── RADIO CODES TABLE ── */
+.radio-grid { display: flex; flex-direction: column; gap: 3px; }
+.radio-category-label { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--yellow); padding: 16px 0 6px; text-transform: uppercase; }
+.radio-row {
+  background: var(--panel); display: grid; grid-template-columns: 100px 200px 1fr;
+  align-items: center; gap: 0; border-left: 3px solid transparent; transition: border-color 0.2s, background 0.2s;
+}
+.radio-row:hover { border-left-color: var(--yellow); background: var(--panel2); }
+.radio-code { font-family: 'Share Tech Mono', monospace; font-size: 15px; color: var(--yellow); font-weight: bold; padding: 14px 20px; border-right: 1px solid var(--border); }
+.radio-name { font-size: 14px; font-weight: 700; color: var(--white); padding: 14px 20px; border-right: 1px solid var(--border); text-transform: uppercase; letter-spacing: 1px; }
+.radio-desc { font-size: 13px; color: var(--gray); padding: 14px 20px; }
+.radio-row.header { background: var(--bg); }
+.radio-row.header .radio-code, .radio-row.header .radio-name, .radio-row.header .radio-desc { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gray); text-transform: uppercase; padding: 10px 20px; }
+
+/* ── SCHEDULE TABLE ── */
+.schedule-grid { display: flex; flex-direction: column; gap: 3px; }
+.schedule-row {
+  background: var(--panel); display: grid; grid-template-columns: 140px 1fr 140px 100px;
+  align-items: center; gap: 0; border-left: 3px solid transparent; transition: border-color 0.2s, background 0.2s;
+}
+.schedule-row:hover { border-left-color: var(--yellow); background: var(--panel2); }
+.schedule-row.header { background: var(--bg); }
+.sch-cell { padding: 14px 20px; font-size: 14px; border-right: 1px solid var(--border); }
+.sch-cell:last-child { border-right: none; }
+.sch-cell.day { font-family: 'Black Ops One', sans-serif; font-size: 14px; letter-spacing: 1px; color: var(--white); }
+.sch-cell.time { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--yellow); }
+.sch-cell.type { font-size: 13px; color: var(--light); }
+.sch-cell.host { font-size: 13px; color: var(--gray); }
+.schedule-row.header .sch-cell { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gray); text-transform: uppercase; padding: 10px 20px; }
+.status-pill { display: inline-block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 3px 10px; border-radius: 2px; }
+.pill-open { background: rgba(61,220,110,0.1); color: var(--green); border: 1px solid rgba(61,220,110,0.3); }
+.pill-limited { background: rgba(232,115,10,0.1); color: var(--orange); border: 1px solid rgba(232,115,10,0.3); }
+.pill-management { background: rgba(245,196,0,0.1); color: var(--yellow); border: 1px solid rgba(245,196,0,0.3); }
+.schedule-note { margin-top: 16px; background: var(--panel); border-left: 3px solid var(--orange); padding: 14px 18px; font-size: 13px; color: var(--gray); line-height: 1.6; }
+.schedule-note strong { color: var(--orange); }
+
+/* ── UNIFORM GUIDE ── */
+.uniform-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.uniform-card {
+  background: var(--panel); padding: 28px 28px; border-top: 3px solid var(--border); transition: border-color 0.3s, background 0.2s;
+}
+.uniform-card:hover { border-color: var(--yellow); background: var(--panel2); }
+.uniform-role-name { font-family: 'Black Ops One', sans-serif; font-size: 18px; letter-spacing: 1px; color: var(--white); margin-bottom: 6px; display: flex; align-items: center; gap: 10px; }
+.uniform-role-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 3px 8px; border-radius: 2px; }
+.badge-worker { background: rgba(232,115,10,0.15); color: var(--orange); border: 1px solid rgba(232,115,10,0.3); }
+.badge-senior { background: rgba(176,179,184,0.15); color: #b0b3b8; border: 1px solid rgba(176,179,184,0.3); }
+.uniform-items { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.uniform-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--light); line-height: 1.5; }
+.uniform-item::before { content: '▸'; color: var(--yellow); flex-shrink: 0; margin-top: 1px; font-size: 12px; }
+.uniform-item strong { color: var(--white); }
+.uniform-note { margin-top: 12px; font-size: 12px; color: var(--gray); font-style: italic; border-top: 1px solid var(--border); padding-top: 10px; }
+
+/* ── RANKS & PROMOTIONS ── */
+.rank-doc-table { display: flex; flex-direction: column; gap: 3px; margin-bottom: 32px; }
+.rank-doc-row {
+  background: var(--panel); display: grid; grid-template-columns: 48px 180px 80px 1fr 160px;
+  align-items: center; gap: 0; border-left: 4px solid transparent; transition: border-color 0.2s, background 0.2s;
+}
+.rank-doc-row:hover { border-left-color: var(--yellow); background: var(--panel2); }
+.rank-doc-row.header { background: var(--bg); }
+.rd-cell { padding: 14px 16px; border-right: 1px solid var(--border); font-size: 13px; }
+.rd-cell:last-child { border-right: none; }
+.rd-cell.tier { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--yellow); font-weight: bold; }
+.rd-cell.name { font-family: 'Black Ops One', sans-serif; font-size: 14px; letter-spacing: 1px; }
+.rd-cell.name.gold { color: var(--yellow); }
+.rd-cell.name.silver { color: #b0b3b8; }
+.rd-cell.name.bronze { color: var(--orange); }
+.rd-cell.name.green { color: var(--green); }
+.rd-cell.reqs { color: var(--gray); font-size: 12px; line-height: 1.5; }
+.rd-cell.perms { color: var(--light); font-size: 12px; line-height: 1.5; }
+.rd-cell.time { font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--orange); }
+.rank-doc-row.header .rd-cell { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; padding: 10px 16px; }
+
+.promo-rules { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 8px; }
+.promo-rule { background: var(--panel); padding: 20px 24px; border-left: 3px solid var(--border); transition: border-color 0.2s; }
+.promo-rule:hover { border-left-color: var(--yellow); }
+.promo-rule-title { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; color: var(--white); }
+.promo-rule-text { font-size: 13px; color: var(--gray); line-height: 1.6; }
+
+/* ── CALLOUT BOXES ── */
+.callout { display: flex; gap: 14px; padding: 16px 20px; border-radius: 3px; margin: 20px 0; font-size: 14px; line-height: 1.6; }
+.callout-warning { background: rgba(232,115,10,0.08); border: 1px solid rgba(232,115,10,0.25); color: var(--light); }
+.callout-info { background: rgba(245,196,0,0.06); border: 1px solid rgba(245,196,0,0.2); color: var(--light); }
+.callout-success { background: rgba(61,220,110,0.06); border: 1px solid rgba(61,220,110,0.2); color: var(--light); }
+.callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── FOOTER ── */
+.wiki-footer { margin-left: var(--sidebar-w); background: var(--surface); border-top: 1px solid var(--border); padding: 28px 60px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.wiki-footer-logo { font-family: 'Black Ops One', sans-serif; font-size: 16px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+.wiki-footer-logo span { color: var(--yellow); }
+.wiki-footer p { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); }
+
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .wiki-main { margin-left: 0; padding: 24px 20px 60px; }
+  .wiki-footer { margin-left: 0; padding: 24px 20px; }
+  .uniform-grid { grid-template-columns: 1fr; }
+  .rank-doc-row { grid-template-columns: 1fr; }
+  .rank-doc-row.header { display: none; }
+  .rd-cell { border-right: none; border-bottom: 1px solid var(--border); }
+  .promo-rules { grid-template-columns: 1fr; }
+  .schedule-row { grid-template-columns: 1fr 1fr; }
+  .radio-row { grid-template-columns: 80px 1fr; }
+  .radio-name { display: none; }
+  .topnav-search { display: none; }
+}

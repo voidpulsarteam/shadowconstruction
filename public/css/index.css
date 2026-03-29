@@ -1,0 +1,205 @@
+:root {
+  --bg: #0c0e0f;
+  --surface: #131618;
+  --panel: #1a1d1f;
+  --border: #2a2d30;
+  --yellow: #f5c400;
+  --yellow-dim: #c49b00;
+  --orange: #e8730a;
+  --white: #edeae3;
+  --gray: #7a7d82;
+  --light: #b0b3b8;
+  --danger: #d94f2b;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: 'Rajdhani', sans-serif; font-weight: 400; overflow-x: hidden; }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.04) 2px, rgba(0,0,0,0.04) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 48px; height: 64px;
+  background: rgba(12,14,15,0.94); border-bottom: 1px solid var(--border); backdrop-filter: blur(8px);
+}
+.nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.nav-logo-icon {
+  width: 36px; height: 36px; background: var(--yellow);
+  clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Black Ops One', sans-serif; font-size: 16px; color: var(--bg); flex-shrink: 0;
+}
+.nav-logo-text { font-family: 'Black Ops One', sans-serif; font-size: 18px; letter-spacing: 2px; color: var(--white); }
+.nav-logo-text span { color: var(--yellow); }
+.nav-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; background: var(--orange); color: #fff; padding: 2px 8px; letter-spacing: 1px; border-radius: 2px; margin-left: 8px; }
+nav ul { list-style: none; display: flex; gap: 28px; align-items: center; }
+nav a { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; color: var(--gray); transition: color 0.2s; position: relative; }
+nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 2px; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform 0.2s; }
+nav a:hover { color: var(--yellow); }
+nav a:hover::after { transform: scaleX(1); }
+.nav-wiki { color: var(--light) !important; border: 1px solid var(--border); padding: 6px 14px; border-radius: 2px; display: flex; align-items: center; gap: 6px; transition: border-color 0.2s, color 0.2s !important; }
+.nav-wiki::after { display: none !important; }
+.nav-wiki:hover { border-color: var(--yellow) !important; color: var(--yellow) !important; }
+.nav-join { background: var(--yellow); color: var(--bg) !important; padding: 8px 20px; font-weight: 700 !important; border-radius: 2px; }
+.nav-join::after { display: none !important; }
+.nav-join:hover { background: var(--yellow-dim) !important; color: var(--bg) !important; }
+
+/* HERO */
+#hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 48px 60px; position: relative; overflow: hidden; }
+.hero-grid-bg {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(245,196,0,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(245,196,0,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 60% at 40% 50%, black 0%, transparent 100%);
+}
+.hero-caution { position: absolute; bottom: 0; left: 0; right: 0; height: 8px; background: repeating-linear-gradient(-45deg, var(--yellow) 0px, var(--yellow) 12px, var(--bg) 12px, var(--bg) 24px); opacity: 0.7; }
+.hero-tag { font-family: 'Share Tech Mono', monospace; font-size: 12px; letter-spacing: 3px; color: var(--yellow); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; opacity: 0; animation: fadeUp 0.7s 0.1s forwards; }
+.hero-tag::before { content: ''; display: inline-block; width: 24px; height: 2px; background: var(--yellow); }
+h1 { font-family: 'Black Ops One', sans-serif; font-size: clamp(56px, 9vw, 130px); line-height: 0.92; letter-spacing: 3px; margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s 0.25s forwards; }
+h1 .line-yellow { color: var(--yellow); display: block; }
+h1 .line-dim { color: var(--gray); display: block; font-size: 0.55em; letter-spacing: 6px; }
+.hero-sub { font-size: 18px; font-weight: 500; color: var(--light); max-width: 560px; line-height: 1.6; margin-bottom: 48px; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
+.hero-sub strong { color: var(--yellow); font-weight: 700; }
+.hero-buttons { display: flex; gap: 16px; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
+.btn-yellow { background: var(--yellow); color: var(--bg); padding: 14px 36px; font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: background 0.2s, transform 0.15s; clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); }
+.btn-yellow:hover { background: var(--yellow-dim); transform: translateY(-2px); }
+.btn-outline { background: transparent; color: var(--white); padding: 13px 32px; font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 8px; transition: border-color 0.2s, color 0.2s; clip-path: polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%); }
+.btn-outline:hover { border-color: var(--yellow); color: var(--yellow); }
+.hero-status { position: absolute; right: 48px; bottom: 60px; z-index: 2; display: flex; flex-direction: column; gap: 12px; opacity: 0; animation: fadeUp 0.7s 0.7s forwards; }
+.status-card { background: var(--panel); border: 1px solid var(--border); padding: 14px 20px; display: flex; align-items: center; gap: 12px; min-width: 200px; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; background: #3ddc6e; box-shadow: 0 0 8px #3ddc6e; animation: pulse 2s infinite; }
+.status-dot.orange { background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+.status-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--light); }
+.status-val { color: var(--yellow); font-weight: bold; }
+@keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.4} }
+
+.caution-bar { height: 10px; background: repeating-linear-gradient(-45deg, var(--yellow) 0px, var(--yellow) 14px, var(--bg) 14px, var(--bg) 28px); opacity: 0.6; }
+
+/* SHARED */
+.section-eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 4px; color: var(--yellow); margin-bottom: 16px; text-transform: uppercase; }
+.section-title { font-family: 'Black Ops One', sans-serif; font-size: clamp(38px,5vw,64px); letter-spacing: 2px; line-height: 1; margin-bottom: 24px; }
+.section-title .accent { color: var(--yellow); }
+
+/* WIKI PROMO STRIP */
+#wiki-strip {
+  background: var(--panel); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+  padding: 40px 48px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;
+}
+.wiki-strip-left { display: flex; align-items: center; gap: 24px; }
+.wiki-strip-icon { font-size: 48px; flex-shrink: 0; }
+.wiki-strip-title { font-family: 'Black Ops One', sans-serif; font-size: 28px; letter-spacing: 2px; color: var(--white); }
+.wiki-strip-title span { color: var(--yellow); }
+.wiki-strip-desc { font-size: 15px; color: var(--gray); margin-top: 4px; }
+.wiki-strip-tags { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.wiki-tag { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 4px 10px; border: 1px solid var(--border); color: var(--gray); border-radius: 2px; }
+
+/* ABOUT */
+#about { padding: 100px 48px; background: var(--surface); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-body { font-size: 16px; line-height: 1.8; color: var(--light); margin-bottom: 20px; }
+.about-right { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+.stat-box { background: var(--panel); padding: 32px 24px; border-top: 3px solid transparent; transition: border-color 0.3s; position: relative; overflow: hidden; }
+.stat-box::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, transparent 0px, transparent 10px, rgba(245,196,0,0.02) 10px, rgba(245,196,0,0.02) 12px); }
+.stat-box:hover { border-color: var(--yellow); }
+.stat-big { font-family: 'Black Ops One', sans-serif; font-size: 52px; color: var(--yellow); line-height: 1; position: relative; }
+.stat-label-box { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gray); margin-top: 8px; position: relative; }
+
+/* ROLES */
+#roles { padding: 100px 48px; background: var(--bg); }
+.roles-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; padding-bottom: 24px; border-bottom: 1px solid var(--border); }
+.roles-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; }
+.role-card { background: var(--panel); padding: 36px 28px; position: relative; overflow: hidden; transition: background 0.3s; cursor: pointer; }
+.role-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--yellow); transform: scaleX(0); transform-origin: left; transition: transform 0.35s; }
+.role-card:hover::before { transform: scaleX(1); }
+.role-card:hover { background: #1e2123; }
+.role-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+.role-name { font-family: 'Black Ops One', sans-serif; font-size: 18px; letter-spacing: 1px; margin-bottom: 10px; color: var(--white); }
+.role-desc { font-size: 14px; color: var(--gray); line-height: 1.65; margin-bottom: 20px; }
+.role-tag { display: inline-block; font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 4px 10px; border: 1px solid var(--border); color: var(--gray); text-transform: uppercase; }
+.role-tag.open { border-color: #3ddc6e; color: #3ddc6e; }
+.role-tag.limited { border-color: var(--orange); color: var(--orange); }
+.role-tag.closed { border-color: var(--danger); color: var(--danger); }
+
+/* RULES */
+#rules { padding: 100px 48px; background: var(--surface); }
+.rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 56px; }
+.rule-item { background: var(--panel); padding: 28px 32px; display: flex; gap: 20px; align-items: flex-start; border-left: 3px solid transparent; transition: border-color 0.3s, background 0.3s; }
+.rule-item:hover { border-color: var(--yellow); background: #1e2123; }
+.rule-num { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--yellow); flex-shrink: 0; margin-top: 2px; }
+.rule-title { font-size: 16px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 6px; color: var(--white); }
+.rule-text { font-size: 14px; color: var(--gray); line-height: 1.65; }
+
+/* JOIN */
+#join { padding: 100px 48px; background: var(--bg); }
+.steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 56px; position: relative; }
+.steps::before { content: ''; position: absolute; top: 36px; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg, var(--yellow), var(--orange), var(--yellow)); opacity: 0.4; }
+.step { padding: 0 24px; text-align: center; }
+.step-num { width: 72px; height: 72px; background: var(--panel); border: 2px solid var(--yellow); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Black Ops One', sans-serif; font-size: 24px; color: var(--yellow); margin: 0 auto 24px; position: relative; z-index: 2; transition: background 0.3s, color 0.3s; }
+.step:hover .step-num { background: var(--yellow); color: var(--bg); }
+.step-title { font-family: 'Black Ops One', sans-serif; font-size: 16px; letter-spacing: 1px; margin-bottom: 10px; color: var(--white); }
+.step-desc { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+/* RANKS */
+#ranks { padding: 100px 48px; background: var(--surface); }
+.ranks-list { margin-top: 56px; display: flex; flex-direction: column; gap: 3px; }
+.rank-row { background: var(--panel); display: grid; grid-template-columns: 80px 200px 1fr auto; align-items: center; gap: 24px; padding: 20px 32px; border-left: 4px solid transparent; transition: border-color 0.3s, background 0.3s; }
+.rank-row:hover { border-color: var(--yellow); background: #1e2123; }
+.rank-tier { font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px; color: var(--gray); }
+.rank-name { font-family: 'Black Ops One', sans-serif; font-size: 16px; letter-spacing: 1px; }
+.rank-name.gold { color: var(--yellow); }
+.rank-name.silver { color: #b0b3b8; }
+.rank-name.bronze { color: var(--orange); }
+.rank-name.green { color: #3ddc6e; }
+.rank-desc { font-size: 13px; color: var(--gray); }
+.rank-badge { font-family: 'Share Tech Mono', monospace; font-size: 10px; padding: 4px 12px; border-radius: 2px; letter-spacing: 1px; text-transform: uppercase; }
+.badge-management { background: rgba(245,196,0,0.15); color: var(--yellow); border: 1px solid rgba(245,196,0,0.3); }
+.badge-senior { background: rgba(176,179,184,0.15); color: #b0b3b8; border: 1px solid rgba(176,179,184,0.3); }
+.badge-worker { background: rgba(232,115,10,0.15); color: var(--orange); border: 1px solid rgba(232,115,10,0.3); }
+.badge-trainee { background: rgba(60,200,100,0.1); color: #3ddc6e; border: 1px solid rgba(60,200,100,0.3); }
+
+/* DISCORD */
+#discord { padding: 100px 48px; background: var(--bg); text-align: center; position: relative; overflow: hidden; }
+.discord-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(245,196,0,0.05) 0%, transparent 70%), repeating-linear-gradient(-45deg, transparent 0px, transparent 30px, rgba(245,196,0,0.015) 30px, rgba(245,196,0,0.015) 32px); }
+.discord-title { font-family: 'Black Ops One', sans-serif; font-size: clamp(40px,6vw,80px); letter-spacing: 3px; line-height: 1; margin-bottom: 20px; position: relative; }
+.discord-sub { font-size: 17px; color: var(--light); margin-bottom: 48px; position: relative; }
+.discord-btn { display: inline-flex; align-items: center; gap: 12px; background: #5865F2; color: white; padding: 18px 48px; font-family: 'Rajdhani', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border-radius: 4px; position: relative; transition: background 0.2s, transform 0.2s; }
+.discord-btn:hover { background: #4752c4; transform: translateY(-3px); }
+
+/* FOOTER */
+footer { background: var(--surface); border-top: 1px solid var(--border); padding: 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 24px; }
+.footer-logo { font-family: 'Black Ops One', sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+.footer-logo span { color: var(--yellow); }
+.footer-small { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); margin-top: 6px; letter-spacing: 1px; }
+.footer-links { display: flex; gap: 32px; list-style: none; flex-wrap: wrap; }
+.footer-links a { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--gray); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--yellow); }
+.footer-right { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); text-align: right; line-height: 1.8; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+
+@media (max-width: 900px) {
+  nav { padding: 0 20px; }
+  nav ul { display: none; }
+  #hero { padding: 80px 20px 60px; }
+  .hero-status { display: none; }
+  #wiki-strip { padding: 32px 20px; }
+  #about { padding: 80px 20px; grid-template-columns: 1fr; gap: 48px; }
+  #roles { padding: 80px 20px; }
+  .roles-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .roles-grid { grid-template-columns: 1fr 1fr; }
+  #rules { padding: 80px 20px; }
+  .rules-grid { grid-template-columns: 1fr; }
+  #join { padding: 80px 20px; }
+  .steps { grid-template-columns: 1fr 1fr; }
+  .steps::before { display: none; }
+  #ranks { padding: 80px 20px; }
+  .rank-row { grid-template-columns: 1fr; padding: 20px; }
+  .rank-tier { display: none; }
+  #discord { padding: 80px 20px; }
+  footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+  .footer-right { text-align: left; }
+}

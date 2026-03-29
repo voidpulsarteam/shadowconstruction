@@ -1,0 +1,33 @@
+<nav class="dash-nav">
+  <div class="nav-section-label">// Overview</div>
+  <a class="nav-item <%= page === 'home' ? 'active' : '' %>" href="/dashboard">
+    <span class="icon">⬡</span> Dashboard
+  </a>
+
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">// Content</div>
+  <a class="nav-item <%= page === 'fleet' ? 'active' : '' %>" href="/dashboard/fleet">
+    <span class="icon">🚛</span> Fleet Manager
+  </a>
+  <a class="nav-item <%= page === 'wiki' ? 'active' : '' %>" href="/dashboard/wiki">
+    <span class="icon">📖</span> Wiki Editor
+  </a>
+  <a class="nav-item <%= page === 'tokens' ? 'active' : '' %>" href="/dashboard/tokens">
+    <span class="icon">🔗</span> Fleet Tokens
+  </a>
+  <a class="nav-item <%= page === 'site' ? 'active' : '' %>" href="/dashboard/site">
+    <span class="icon">⚙️</span> Site Settings
+  </a>
+
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">// Account</div>
+  <a class="nav-item <%= page === 'password' ? 'active' : '' %>" href="/dashboard/password">
+    <span class="icon">🔑</span> Change Password
+  </a>
+
+  <div class="nav-divider"></div>
+  <div class="nav-section-label">// Navigate</div>
+  <a class="nav-item" href="/" target="_blank"><span class="icon">🏠</span> Main Site</a>
+  <a class="nav-item" href="/fleet" target="_blank"><span class="icon">📋</span> Fleet Page</a>
+  <a class="nav-item" href="/logout"><span class="icon">→</span> Sign Out</a>
+</nav>

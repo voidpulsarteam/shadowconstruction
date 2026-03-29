@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<%- include('../partials/head', {
+  title: 'Wiki Editor — Dashboard',
+  fontsUrl: 'https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Orbitron:wght@400;600;700;900&display=swap',
+  cssFile: 'dashboard.css'
+}) %>
+<style>
+  .tabs { display:flex; gap:4px; margin-bottom:20px; flex-wrap:wrap; }
+  .tab-btn { padding:8px 18px; background:var(--card); border:1px solid var(--border); color:var(--muted); border-radius:6px; cursor:pointer; font-family:'Rajdhani',sans-serif; font-weight:600; font-size:13px; letter-spacing:1px; text-decoration:none; transition:all .15s; }
+  .tab-btn.active, .tab-btn:hover { background:var(--accent); color:#000; border-color:var(--accent); }
+  .tab-pane { display:none; }
+  .tab-pane.active { display:block; }
+  .wiki-row { display:grid; gap:8px; align-items:center; margin-bottom:8px; }
+  .wiki-row.schedule-row { grid-template-columns: 100px 1fr 130px 140px 120px 36px; }
+  .wiki-row.radio-row    { grid-template-columns: 100px 130px 160px 1fr 36px; }
+  .wiki-row.rank-row     { grid-template-columns: 60px 170px 90px 90px 1fr 1fr 36px; }
+  .wiki-row.rule-row     { grid-template-columns: 200px 1fr 36px; }
+  .wiki-row.uniform-row  { grid-template-columns: 50px 150px 100px 140px 36px; }
+  .wiki-row-header { font-family:'Share Tech Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:1px; padding:0 4px 4px; border-bottom:1px solid var(--border); margin-bottom:10px; }
+  .form-input.sm  { padding:7px 10px; font-size:12px; margin:0; }
+  .form-input.mono { font-family:'Share Tech Mono',monospace; }
+  .row-remove { background:rgba(255,60,60,0.1); border:1px solid rgba(255,60,60,0.25); color:#ff6b6b; width:32px; height:32px; border-radius:4px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .row-remove:hover { background:rgba(255,60,60,0.2); }
+  textarea.form-input { resize:vertical; font-size:12px; line-height:1.5; min-height:80px; }
+  .uniform-grid-wrap { display:grid; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); gap:16px; }
+  .uniform-card-edit { background:var(--card); border:1px solid var(--border); border-radius:8px; padding:16px; }
+  .uniform-card-head { display:flex; gap:8px; margin-bottom:12px; }
+  .section-divider { border:none; border-top:1px solid var(--border); margin:24px 0 20px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/dashboard" class="topbar-brand">SHADOW <span>CONSTRUCTION</span></a>
+  <span class="topbar-badge">DASHBOARD</span>
+  <div class="topbar-right">
+    <span class="topbar-user">Signed in as <span><%= user.username %></span></span>
+    <a href="/logout" class="topbar-link danger">Sign Out</a>
+  </div>
+</div>
+
+<div class="dash-layout">
+  <%- include('../partials/dash-nav', { page: 'wiki' }) %>
+
+  <main class="dash-main">
+    <% if (flash.success && flash.success.length) { %>
+      <div class="flash flash-success">✓ <%= flash.success[0] %></div>
+    <% } %>
+    <% if (flash.error && flash.error.length) { %>
+      <div class="flash flash-error">⚠ <%= flash.error[0] %></div>
+    <% } %>
+
+    <div class="page-header">
+      <div class="page-eyebrow">// Content Editor</div>
+      <div class="page-title">WIKI <span>EDITOR</span></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <a class="tab-btn <%= tab === 'schedule' ? 'active' : '' %>" href="/dashboard/wiki?tab=schedule">📅 Schedule</a>
+      <a class="tab-btn <%= tab === 'radio'    ? 'active' : '' %>" href="/dashboard/wiki?tab=radio">📻 Radio Codes</a>
+      <a class="tab-btn <%= tab === 'ranks'    ? 'active' : '' %>" href="/dashboard/wiki?tab=ranks">⭐ Ranks & Promos</a>
+      <a class="tab-btn <%= tab === 'uniforms' ? 'active' : '' %>" href="/dashboard/wiki?tab=uniforms">🦺 Uniforms</a>
+    </div>
+
+    <!-- ── SCHEDULE TAB ── -->
+    <% if (tab === 'schedule') { %>
+    <div class="form-card">
+      <div class="section-title" style="margin-bottom:14px;">// Session Schedule</div>
+      <form method="POST" action="/dashboard/wiki/schedule">
+        <div class="wiki-row schedule-row wiki-row-header">
+          <span>Day</span><span>Session Type</span><span>Time (ET)</span><span>Access Class</span><span>Access Label</span><span></span>
+        </div>
+        <div id="scheduleRows">
+          <% wiki.schedule.forEach(function(s) { %>
+          <div class="wiki-row schedule-row">
+            <input class="form-input sm" type="text" name="day[]"         value="<%= s.day %>"         placeholder="Monday">
+            <input class="form-input sm" type="text" name="type[]"        value="<%= s.type %>"        placeholder="Session type">
+            <input class="form-input sm" type="text" name="time[]"        value="<%= s.time %>"        placeholder="6:00 PM – 8:00 PM">
+            <select class="form-input sm" name="access[]">
+              <option value="pill-open"       <%= s.access === 'pill-open'       ? 'selected' : '' %>>pill-open</option>
+              <option value="pill-limited"    <%= s.access === 'pill-limited'    ? 'selected' : '' %>>pill-limited</option>
+              <option value="pill-management" <%= s.access === 'pill-management' ? 'selected' : '' %>>pill-management</option>
+            </select>
+            <input class="form-input sm" type="text" name="accessLabel[]" value="<%= s.accessLabel %>" placeholder="All Members">
+            <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>
+          </div>
+          <% }) %>
+        </div>
+        <button type="button" class="add-row-btn" onclick="addScheduleRow()" style="margin-top:10px;">+ Add Session</button>
+        <div style="margin-top:20px;display:flex;gap:10px;">
+          <button class="btn btn-primary" type="submit">✓ Save Schedule</button>
+        </div>
+      </form>
+    </div>
+    <% } %>
+
+    <!-- ── RADIO CODES TAB ── -->
+    <% if (tab === 'radio') { %>
+    <div class="form-card">
+      <div class="section-title" style="margin-bottom:4px;">// Radio Codes</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:14px;">Set Type to <strong style="color:var(--accent)">Category</strong> for section headers, or <strong style="color:var(--white)">Code</strong> for individual entries.</p>
+      <form method="POST" action="/dashboard/wiki/radio">
+        <div class="wiki-row radio-row wiki-row-header">
+          <span>Type</span><span>Code</span><span>Name</span><span>Description / Category Label</span><span></span>
+        </div>
+        <div id="radioRows">
+          <% wiki.radio.forEach(function(r) { %>
+          <div class="wiki-row radio-row">
+            <select class="form-input sm" name="radio_type[]" onchange="toggleRadioRow(this)">
+              <option value="code"     <%= !r.isCategory ? 'selected' : '' %>>Code</option>
+              <option value="category" <%=  r.isCategory ? 'selected' : '' %>>Category</option>
+            </select>
+            <input class="form-input sm mono radio-code-field" type="text" name="radio_code[]"  value="<%= r.isCategory ? '' : r.code %>"  placeholder="10-4"  style="<%= r.isCategory ? 'display:none' : '' %>">
+            <input class="form-input sm radio-name-field"      type="text" name="radio_name[]"  value="<%= r.isCategory ? '' : r.name %>"  placeholder="Name"   style="<%= r.isCategory ? 'display:none' : '' %>">
+            <input class="form-input sm radio-desc-field"      type="text" name="radio_desc[]"  value="<%= r.isCategory ? r.label : r.desc %>" placeholder="<%= r.isCategory ? 'CATEGORY LABEL' : 'Description' %>">
+            <input type="hidden" name="radio_label[]" value="<%= r.isCategory ? r.label : '' %>">
+            <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>
+          </div>
+          <% }) %>
+        </div>
+        <button type="button" class="add-row-btn" onclick="addRadioRow()" style="margin-top:10px;">+ Add Row</button>
+        <div style="margin-top:20px;display:flex;gap:10px;">
+          <button class="btn btn-primary" type="submit">✓ Save Radio Codes</button>
+        </div>
+      </form>
+    </div>
+    <% } %>
+
+    <!-- ── RANKS & PROMOS TAB ── -->
+    <% if (tab === 'ranks') { %>
+    <div class="form-card">
+      <form method="POST" action="/dashboard/wiki/ranks">
+
+        <div class="section-title" style="margin-bottom:14px;">// Rank Table</div>
+        <div class="wiki-row rank-row wiki-row-header">
+          <span>Tier</span><span>Name</span><span>Color</span><span>Min. Time</span><span>Requirements</span><span>Permissions</span><span></span>
+        </div>
+        <div id="rankRows">
+          <% wiki.ranks.forEach(function(r) { %>
+          <div class="wiki-row rank-row">
+            <input class="form-input sm mono" type="text" name="tier[]"      value="<%= r.tier %>"      placeholder="T3">
+            <input class="form-input sm"      type="text" name="rank_name[]" value="<%= r.name %>"      placeholder="🪖 Foreman">
+            <select class="form-input sm" name="nameClass[]">
+              <option value="gold"   <%= r.nameClass === 'gold'   ? 'selected' : '' %>>Gold</option>
+              <option value="silver" <%= r.nameClass === 'silver' ? 'selected' : '' %>>Silver</option>
+              <option value="bronze" <%= r.nameClass === 'bronze' ? 'selected' : '' %>>Bronze</option>
+              <option value="green"  <%= r.nameClass === 'green'  ? 'selected' : '' %>>Green</option>
+            </select>
+            <input class="form-input sm"  type="text" name="rank_time[]" value="<%= r.time %>"  placeholder="3 weeks">
+            <input class="form-input sm"  type="text" name="reqs[]"      value="<%= r.reqs %>"  placeholder="Requirements">
+            <input class="form-input sm"  type="text" name="perms[]"     value="<%= r.perms %>" placeholder="Permissions">
+            <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>
+          </div>
+          <% }) %>
+        </div>
+        <button type="button" class="add-row-btn" onclick="addRankRow()" style="margin-top:10px;">+ Add Rank</button>
+
+        <hr class="section-divider">
+
+        <div class="section-title" style="margin-bottom:14px;">// Promotion Rules</div>
+        <div class="wiki-row rule-row wiki-row-header">
+          <span>Title</span><span>Rule Text</span><span></span>
+        </div>
+        <div id="ruleRows">
+          <% wiki.promoRules.forEach(function(r) { %>
+          <div class="wiki-row rule-row">
+            <input class="form-input sm" type="text" name="rule_title[]" value="<%= r.title %>" placeholder="Rule title">
+            <input class="form-input sm" type="text" name="rule_text[]"  value="<%= r.text %>"  placeholder="Rule description">
+            <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>
+          </div>
+          <% }) %>
+        </div>
+        <button type="button" class="add-row-btn" onclick="addRuleRow()" style="margin-top:10px;">+ Add Rule</button>
+
+        <div style="margin-top:20px;display:flex;gap:10px;">
+          <button class="btn btn-primary" type="submit">✓ Save Ranks & Rules</button>
+        </div>
+      </form>
+    </div>
+    <% } %>
+
+    <!-- ── UNIFORMS TAB ── -->
+    <% if (tab === 'uniforms') { %>
+    <div class="form-card">
+      <div class="section-title" style="margin-bottom:4px;">// Uniform Guide</div>
+      <p style="color:var(--muted);font-size:12px;margin-bottom:16px;">For items, enter one per line in <strong style="color:var(--white)">Label: Description</strong> format.</p>
+      <form method="POST" action="/dashboard/wiki/uniforms">
+        <div class="uniform-grid-wrap" id="uniformCards">
+          <% wiki.uniforms.forEach(function(u) { %>
+          <div class="uniform-card-edit">
+            <div class="uniform-card-head">
+              <input class="form-input sm" type="text" name="uniform_icon[]"     value="<%= u.icon %>"     placeholder="🦺"     style="width:54px;text-align:center;">
+              <input class="form-input sm" type="text" name="uniform_role[]"     value="<%= u.role %>"     placeholder="Role name" style="flex:1;">
+              <button type="button" class="row-remove" onclick="removeCard(this)">✕</button>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+              <div>
+                <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">TAG LABEL</label>
+                <input class="form-input sm" type="text" name="uniform_tagLabel[]" value="<%= u.tagLabel %>" placeholder="Worker">
+              </div>
+              <div>
+                <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">TAG CLASS</label>
+                <select class="form-input sm" name="uniform_tagClass[]">
+                  <option value="badge-worker"     <%= u.tagClass === 'badge-worker'     ? 'selected' : '' %>>badge-worker</option>
+                  <option value="badge-senior"     <%= u.tagClass === 'badge-senior'     ? 'selected' : '' %>>badge-senior</option>
+                  <option value="badge-management" <%= u.tagClass === 'badge-management' ? 'selected' : '' %>>badge-management</option>
+                  <option value="badge-trainee"    <%= u.tagClass === 'badge-trainee'    ? 'selected' : '' %>>badge-trainee</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom:10px;">
+              <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">ITEMS (one per line: Label: Description)</label>
+              <textarea class="form-input" name="uniform_items[]" rows="5"><%= u.items.map(i => i.label + ': ' + i.desc).join('\n') %></textarea>
+            </div>
+            <div>
+              <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">NOTE</label>
+              <input class="form-input sm" type="text" name="uniform_note[]" value="<%= u.note %>" placeholder="Important note for this uniform">
+            </div>
+          </div>
+          <% }) %>
+        </div>
+        <button type="button" class="add-row-btn" onclick="addUniformCard()" style="margin-top:16px;">+ Add Uniform</button>
+        <div style="margin-top:20px;display:flex;gap:10px;">
+          <button class="btn btn-primary" type="submit">✓ Save Uniforms</button>
+        </div>
+      </form>
+    </div>
+    <% } %>
+
+  </main>
+</div>
+
+<script>
+function removeRow(btn) { btn.closest('.wiki-row').remove(); }
+function removeCard(btn) { btn.closest('.uniform-card-edit').remove(); }
+
+function addScheduleRow() {
+  const c = document.getElementById('scheduleRows');
+  const d = document.createElement('div');
+  d.className = 'wiki-row schedule-row';
+  d.innerHTML = `
+    <input class="form-input sm" type="text" name="day[]"         placeholder="Monday">
+    <input class="form-input sm" type="text" name="type[]"        placeholder="Session type">
+    <input class="form-input sm" type="text" name="time[]"        placeholder="6:00 PM – 8:00 PM">
+    <select class="form-input sm" name="access[]">
+      <option value="pill-open">pill-open</option>
+      <option value="pill-limited">pill-limited</option>
+      <option value="pill-management">pill-management</option>
+    </select>
+    <input class="form-input sm" type="text" name="accessLabel[]" placeholder="All Members">
+    <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>`;
+  c.appendChild(d);
+  d.querySelector('input').focus();
+}
+
+function addRadioRow() {
+  const c = document.getElementById('radioRows');
+  const d = document.createElement('div');
+  d.className = 'wiki-row radio-row';
+  d.innerHTML = `
+    <select class="form-input sm" name="radio_type[]" onchange="toggleRadioRow(this)">
+      <option value="code">Code</option>
+      <option value="category">Category</option>
+    </select>
+    <input class="form-input sm mono radio-code-field" type="text" name="radio_code[]"  placeholder="10-4">
+    <input class="form-input sm radio-name-field"      type="text" name="radio_name[]"  placeholder="Name">
+    <input class="form-input sm radio-desc-field"      type="text" name="radio_desc[]"  placeholder="Description">
+    <input type="hidden" name="radio_label[]" value="">
+    <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>`;
+  c.appendChild(d);
+  d.querySelector('input').focus();
+}
+
+function toggleRadioRow(sel) {
+  const row    = sel.closest('.wiki-row');
+  const isCat  = sel.value === 'category';
+  row.querySelector('.radio-code-field').style.display = isCat ? 'none' : '';
+  row.querySelector('.radio-name-field').style.display = isCat ? 'none' : '';
+  const desc = row.querySelector('.radio-desc-field');
+  desc.placeholder = isCat ? 'CATEGORY LABEL' : 'Description';
+}
+
+function addRankRow() {
+  const c = document.getElementById('rankRows');
+  const d = document.createElement('div');
+  d.className = 'wiki-row rank-row';
+  d.innerHTML = `
+    <input class="form-input sm mono" type="text" name="tier[]"      placeholder="T2">
+    <input class="form-input sm"      type="text" name="rank_name[]" placeholder="🦺 Worker">
+    <select class="form-input sm" name="nameClass[]">
+      <option value="gold">Gold</option><option value="silver">Silver</option>
+      <option value="bronze" selected>Bronze</option><option value="green">Green</option>
+    </select>
+    <input class="form-input sm" type="text" name="rank_time[]" placeholder="1 week">
+    <input class="form-input sm" type="text" name="reqs[]"      placeholder="Requirements">
+    <input class="form-input sm" type="text" name="perms[]"     placeholder="Permissions">
+    <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>`;
+  c.appendChild(d);
+  d.querySelector('input').focus();
+}
+
+function addRuleRow() {
+  const c = document.getElementById('ruleRows');
+  const d = document.createElement('div');
+  d.className = 'wiki-row rule-row';
+  d.innerHTML = `
+    <input class="form-input sm" type="text" name="rule_title[]" placeholder="Rule title">
+    <input class="form-input sm" type="text" name="rule_text[]"  placeholder="Rule description">
+    <button type="button" class="row-remove" onclick="removeRow(this)">✕</button>`;
+  c.appendChild(d);
+  d.querySelector('input').focus();
+}
+
+function addUniformCard() {
+  const c = document.getElementById('uniformCards');
+  const d = document.createElement('div');
+  d.className = 'uniform-card-edit';
+  d.innerHTML = `
+    <div class="uniform-card-head">
+      <input class="form-input sm" type="text" name="uniform_icon[]"     placeholder="🦺"  style="width:54px;text-align:center;">
+      <input class="form-input sm" type="text" name="uniform_role[]"     placeholder="Role name" style="flex:1;">
+      <button type="button" class="row-remove" onclick="removeCard(this)">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <div>
+        <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">TAG LABEL</label>
+        <input class="form-input sm" type="text" name="uniform_tagLabel[]" placeholder="Worker">
+      </div>
+      <div>
+        <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">TAG CLASS</label>
+        <select class="form-input sm" name="uniform_tagClass[]">
+          <option value="badge-worker">badge-worker</option>
+          <option value="badge-senior">badge-senior</option>
+          <option value="badge-management">badge-management</option>
+          <option value="badge-trainee">badge-trainee</option>
+        </select>
+      </div>
+    </div>
+    <div style="margin-bottom:10px;">
+      <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">ITEMS (one per line: Label: Description)</label>
+      <textarea class="form-input" name="uniform_items[]" rows="5"></textarea>
+    </div>
+    <div>
+      <label style="font-size:10px;color:var(--muted);display:block;margin-bottom:4px;">NOTE</label>
+      <input class="form-input sm" type="text" name="uniform_note[]" placeholder="Important note for this uniform">
+    </div>`;
+  c.appendChild(d);
+  d.querySelector('input').focus();
+}
+</script>
+</body>
+</html>
