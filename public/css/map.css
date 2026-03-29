@@ -3,8 +3,8 @@
   --surface: #131618;
   --panel:   #1a1d1f;
   --border:  #2a2d30;
-  --yellow:  #f5c400;
-  --yellow-dim: #c49b00;
+  --purple:  #8b5cf6;
+  --purple-dim: #7c3aed;
   --orange:  #e8730a;
   --white:   #edeae3;
   --gray:    #7a7d82;
@@ -13,7 +13,7 @@
   --green:   #3ddc6e;
 
   /* marker colors */
-  --m-active:  #f5c400;
+  --m-active:  #8b5cf6;
   --m-closure: #e8730a;
   --m-staging: #64b5f6;
   --m-planned: #9e9e9e;
@@ -42,10 +42,10 @@ body::before {
   letter-spacing:1px; padding:6px 12px; border:1px solid var(--border); border-radius:2px;
   transition:color .2s, border-color .2s;
 }
-.topnav-back:hover { color:var(--yellow); border-color:var(--yellow); }
+.topnav-back:hover { color:var(--purple); border-color:var(--purple); }
 .topnav-divider { width:1px; height:24px; background:var(--border); flex-shrink:0; }
 .topnav-logo { font-family:'Black Ops One',sans-serif; font-size:16px; letter-spacing:2px; color:var(--white); text-decoration:none; }
-.topnav-logo span { color:var(--yellow); }
+.topnav-logo span { color:var(--purple); }
 .topnav-label {
   font-family:'Share Tech Mono',monospace; font-size:11px; letter-spacing:3px;
   color:var(--gray); background:var(--panel); padding:4px 10px; border:1px solid var(--border); border-radius:2px;
@@ -57,7 +57,7 @@ body::before {
   letter-spacing:1px; padding:5px 12px; border:1px solid var(--border); border-radius:2px;
   transition:color .2s, border-color .2s;
 }
-.topnav-link:hover { color:var(--yellow); border-color:var(--yellow); }
+.topnav-link:hover { color:var(--purple); border-color:var(--purple); }
 
 /* ── MAP LAYOUT ── */
 .map-layout {
@@ -85,7 +85,7 @@ body::before {
   font-family:'Black Ops One',sans-serif; font-size:18px; letter-spacing:2px;
   color:var(--white); margin-bottom:4px;
 }
-.sidebar-title span { color:var(--yellow); }
+.sidebar-title span { color:var(--purple); }
 .sidebar-sub { font-size:12px; color:var(--gray); line-height:1.6; }
 
 /* legend */
@@ -129,7 +129,7 @@ body::before {
   flex:1; background:var(--panel); border:1px solid var(--border); border-radius:4px;
   padding:10px 12px; text-align:center;
 }
-.stat-chip-num { font-family:'Black Ops One',sans-serif; font-size:22px; color:var(--yellow); }
+.stat-chip-num { font-family:'Black Ops One',sans-serif; font-size:22px; color:var(--purple); }
 .stat-chip-label { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--gray); letter-spacing:1px; margin-top:2px; }
 
 /* ── MAP MAIN ── */
@@ -152,7 +152,7 @@ body::before {
   display:flex; align-items:center; justify-content:center;
   transition:border-color .2s, color .2s;
 }
-.map-btn:hover { border-color:var(--yellow); color:var(--yellow); }
+.map-btn:hover { border-color:var(--purple); color:var(--purple); }
 .map-btn-sep { height:1px; background:var(--border); margin:2px 0; }
 
 .map-coords {
@@ -226,7 +226,7 @@ body::before {
 /* caution bar */
 .caution-strip {
   position:absolute; bottom:0; left:0; right:0; height:4px;
-  background:repeating-linear-gradient(-45deg, var(--yellow) 0,var(--yellow) 8px,var(--bg) 8px,var(--bg) 16px);
+  background:repeating-linear-gradient(-45deg, var(--purple) 0,var(--purple) 8px,var(--bg) 8px,var(--bg) 16px);
   opacity:.6; pointer-events:none;
 }
 

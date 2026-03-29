@@ -95,15 +95,94 @@ body::before {
   content: ''; position: absolute; inset: 0;
   background: repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(245,196,0,0.025) 18px, rgba(245,196,0,0.025) 20px);
 }
-.wiki-hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+.wiki-hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--purple), var(--orange)); }
 .wiki-hero-content { position: relative; }
 .wiki-breadcrumb { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); letter-spacing: 2px; margin-bottom: 12px; }
-.wiki-breadcrumb a { color: var(--yellow); text-decoration: none; }
+.wiki-breadcrumb a { color: var(--purple); text-decoration: none; }
 .wiki-hero h1 { font-family: 'Black Ops One', sans-serif; font-size: 44px; letter-spacing: 3px; line-height: 1; color: var(--white); margin-bottom: 12px; }
-.wiki-hero h1 span { color: var(--yellow); }
+.wiki-hero h1 span { color: var(--purple); }
 .wiki-hero p { font-size: 16px; color: var(--light); max-width: 600px; line-height: 1.6; }
 .wiki-doc-count { margin-top: 20px; display: flex; gap: 16px; flex-wrap: wrap; }
 .doc-chip { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; padding: 5px 12px; border: 1px solid var(--border); color: var(--gray); border-radius: 2px; }
+
+/* ── WIKI CONTENT ── */
+.wiki-content {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 32px 40px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--light);
+}
+.wiki-content h1 {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 32px;
+  letter-spacing: 2px;
+  color: var(--white);
+  margin-bottom: 24px;
+  border-bottom: 2px solid var(--yellow);
+  padding-bottom: 12px;
+}
+.wiki-content h2 {
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 24px;
+  letter-spacing: 1px;
+  color: var(--white);
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+.wiki-content h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--yellow);
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+.wiki-content p {
+  margin-bottom: 16px;
+}
+.wiki-content ul, .wiki-content ol {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+.wiki-content li {
+  margin-bottom: 8px;
+}
+.wiki-content strong {
+  color: var(--white);
+  font-weight: bold;
+}
+.wiki-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.wiki-content th, .wiki-content td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.wiki-content th {
+  background: var(--bg);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: var(--gray);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.wiki-content td {
+  color: var(--light);
+}
+.wiki-content a {
+  color: var(--yellow);
+  text-decoration: none;
+}
+.wiki-content a:hover {
+  text-decoration: underline;
+}
 
 /* ── DOC SECTIONS ── */
 .doc-section { margin-bottom: 72px; scroll-margin-top: 80px; }
@@ -143,7 +222,7 @@ body::before {
 .sch-cell { padding: 14px 20px; font-size: 14px; border-right: 1px solid var(--border); }
 .sch-cell:last-child { border-right: none; }
 .sch-cell.day { font-family: 'Black Ops One', sans-serif; font-size: 14px; letter-spacing: 1px; color: var(--white); }
-.sch-cell.time { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--yellow); }
+.sch-cell.time { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--purple); }
 .sch-cell.type { font-size: 13px; color: var(--light); }
 .sch-cell.host { font-size: 13px; color: var(--gray); }
 .schedule-row.header .sch-cell { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--gray); text-transform: uppercase; padding: 10px 20px; }

@@ -5,10 +5,10 @@
   --card-hover:   #212427;
   --border:       #2a2d30;
   --border-bright:#3a3d40;
-  --accent:       #8b5cf6;
+  --accent:       #f5c400;
   --accent2:      #e8730a;
-  --accent3:      #7c3aed;
-  --glow:         rgba(139,92,246,0.12);
+  --accent3:      #c49b00;
+  --glow:         rgba(245,196,0,0.12);
   --text:         #edeae3;
   --white:        #edeae3;
   --muted:        #7a7d82;
@@ -39,7 +39,7 @@ body::before {
 }
 body::after {
   content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background-image: linear-gradient(rgba(139,92,246,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,0.03) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(245,196,0,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,196,0,0.03) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 
@@ -51,7 +51,7 @@ body::after {
 }
 #gate::before {
   content:''; position:absolute; inset:0; pointer-events:none;
-  background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(139,92,246,0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(245,196,0,0.08) 0%, transparent 70%);
 }
 
 .gate-card {

@@ -70,10 +70,10 @@ body::after {
 .gate-logo { text-align:center; margin-bottom:36px; }
 .gate-logo-img {
   width:72px; height:72px; object-fit:contain; display:block; margin:0 auto 16px;
-  filter: drop-shadow(0 0 20px rgba(245,196,0,0.4));
+  filter: drop-shadow(0 0 20px rgba(139,92,246,0.4));
   animation: logoPulse 3s ease-in-out infinite;
 }
-@keyframes logoPulse { 0%,100%{filter:drop-shadow(0 0 20px rgba(245,196,0,0.4))} 50%{filter:drop-shadow(0 0 32px rgba(245,196,0,0.65))} }
+@keyframes logoPulse { 0%,100%{filter:drop-shadow(0 0 20px rgba(139,92,246,0.4))} 50%{filter:drop-shadow(0 0 32px rgba(139,92,246,0.65))} }
 
 .gate-logo-name {
   font-family: 'Orbitron', sans-serif;
@@ -103,7 +103,7 @@ body::after {
   padding: 13px 48px 13px 18px; outline: none; letter-spacing: 3px;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
-.gate-input:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(245,196,0,0.08); }
+.gate-input:focus { border-color: var(--accent2); box-shadow: 0 0 0 3px rgba(139,92,246,0.08); }
 .gate-input.error { border-color: var(--danger); animation: shake 0.35s ease; }
 .gate-eye {
   position: absolute; right:14px; top:50%; transform:translateY(-50%);
@@ -142,7 +142,7 @@ body::after {
 }
 
 /* ── MAIN SITE ── */
-#site { display:none; position:relative; z-index:5; }
+#site { display:block; position:relative; z-index:5; }
 
 /* ── TOPNAV ── */
 .topnav {
@@ -166,7 +166,7 @@ body::after {
 .topnav-logo span { color: var(--accent2); }
 .topnav-label {
   font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
-  color: var(--muted); background: rgba(245,196,0,0.08); padding: 3px 10px;
+  color: var(--muted); background: rgba(139,92,246,0.08); padding: 3px 10px;
   border: 1px solid var(--border-bright); border-radius: 2px;
 }
 .topnav-wiki-link {
@@ -182,7 +182,7 @@ body::after {
   position: relative; z-index:10;
   padding: 0 56px;
   border-bottom: 1px solid var(--border-bright);
-  background: linear-gradient(180deg, rgba(245,196,0,0.06) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(139,92,246,0.06) 0%, transparent 100%);
 }
 .header-inner {
   display: flex; align-items: center; gap: 40px;
@@ -194,12 +194,12 @@ body::after {
 }
 .header-logo-wrap::before {
   content:''; position:absolute; inset:-10px; border-radius:50%;
-  background: radial-gradient(circle, rgba(245,196,0,0.15) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, transparent 70%);
   animation: logoPulse 3s ease-in-out infinite;
 }
 .header-logo-img {
   width:80px; height:80px; object-fit:contain; position:relative; z-index:1;
-  filter: drop-shadow(0 0 16px rgba(245,196,0,0.35));
+  filter: drop-shadow(0 0 16px rgba(139,92,246,0.35));
 }
 .header-text { flex:1; }
 .header-eyebrow {
@@ -242,7 +242,7 @@ body::after {
   transition:all 0.15s;
 }
 .filter-btn:hover { border-color:var(--accent2); color:var(--accent2); }
-.filter-btn.active { background:rgba(245,196,0,0.12); border-color:var(--accent2); color:var(--accent2); }
+.filter-btn.active { background:rgba(139,92,246,0.12); border-color:var(--accent2); color:var(--accent2); }
 .filter-search {
   margin-left:auto; display:flex; align-items:center; gap:8px;
   background:var(--card); border:1px solid var(--border-bright);
@@ -300,7 +300,7 @@ body::after {
   font-family:'Share Tech Mono',monospace; font-size:9px; padding:2px 7px;
   border-radius:2px; letter-spacing:1px; text-transform:uppercase;
 }
-.meta-pill.year { background:rgba(245,196,0,0.12); color:var(--accent2); border:1px solid rgba(245,196,0,0.2); }
+.meta-pill.year { background:rgba(139,92,246,0.12); color:var(--accent2); border:1px solid rgba(139,92,246,0.2); }
 .meta-pill.variant { background:rgba(100,216,255,0.1); color:var(--cyan); border:1px solid rgba(100,216,255,0.2); }
 
 .card-body { padding:10px 20px 12px; position:relative; z-index:2; }
@@ -315,7 +315,7 @@ body::after {
   white-space:nowrap; display:inline-block; min-width:58px;
   text-align:center; text-transform:uppercase;
 }
-.slot-badge.left   { color:var(--accent2); background:rgba(245,196,0,0.1); border:1px solid rgba(245,196,0,0.18); }
+.slot-badge.left   { color:var(--accent2); background:rgba(139,92,246,0.1); border:1px solid rgba(139,92,246,0.18); }
 .slot-badge.right  { color:var(--cyan);    background:var(--cyan-dim);        border:1px solid rgba(100,216,255,0.2); }
 .slot-badge.back   { color:var(--green);   background:var(--green-dim);       border:1px solid rgba(77,255,200,0.2); }
 
@@ -351,7 +351,7 @@ body::after {
   background:rgba(0,0,0,0.4); flex-wrap:wrap; gap:12px;
 }
 .footer-left { display:flex; align-items:center; gap:14px; }
-.footer-logo-img { width:28px; height:28px; object-fit:contain; opacity:0.7; filter:drop-shadow(0 0 6px rgba(245,196,0,0.3)); }
+.footer-logo-img { width:28px; height:28px; object-fit:contain; opacity:0.7; filter:drop-shadow(0 0 6px rgba(139,92,246,0.3)); }
 .footer-brand { font-family:'Orbitron',sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; color:var(--muted); }
 .footer-brand span { color:var(--accent2); }
 .footer-info { font-family:'Share Tech Mono',monospace; font-size:9px; color:var(--muted2); letter-spacing:1px; }

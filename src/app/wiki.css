@@ -1,0 +1,133 @@
+:root {
+  --bg: #0c0e0f;
+  --surface: #131618;
+  --panel: #1a1d1f;
+  --panel2: #1e2123;
+  --border: #2a2d30;
+  --yellow: #f5c400;
+  --yellow-dim: #c49b00;
+  --orange: #e8730a;
+  --white: #edeae3;
+  --gray: #7a7d82;
+  --light: #b0b3b8;
+  --danger: #d94f2b;
+  --green: #3ddc6e;
+  --sidebar-w: 260px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--white); font-family: 'Rajdhani', sans-serif; overflow-x: hidden; }
+body::before {
+  content: ''; position: fixed; inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+  pointer-events: none; z-index: 9999;
+}
+
+/* ── TOP NAV ── */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 56px; background: rgba(12,14,15,0.97); border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(10px);
+  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+}
+.topnav-back {
+  display: flex; align-items: center; gap: 8px; text-decoration: none;
+  font-family: 'Share Tech Mono', monospace; font-size: 12px; color: var(--gray);
+  letter-spacing: 1px; transition: color 0.2s; padding: 6px 12px; border: 1px solid var(--border); border-radius: 2px;
+}
+.topnav-back:hover { color: var(--yellow); border-color: var(--yellow); }
+.topnav-divider { width: 1px; height: 24px; background: var(--border); }
+.topnav-logo { font-family: 'Black Ops One', sans-serif; font-size: 16px; letter-spacing: 2px; color: var(--white); text-decoration: none; }
+.topnav-logo span { color: var(--yellow); }
+.topnav-label {
+  font-family: 'Share Tech Mono', monospace; font-size: 11px; letter-spacing: 3px;
+  color: var(--gray); background: var(--panel); padding: 4px 10px; border-radius: 2px;
+  border: 1px solid var(--border);
+}
+.topnav-search {
+  margin-left: auto; display: flex; align-items: center; gap: 8px;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 3px;
+  padding: 6px 14px; width: 220px; transition: border-color 0.2s;
+}
+.topnav-search:focus-within { border-color: var(--yellow); }
+.topnav-search input { background: none; border: none; outline: none; color: var(--white); font-family: 'Rajdhani', sans-serif; font-size: 14px; width: 100%; }
+.topnav-search input::placeholder { color: var(--gray); }
+.search-icon { color: var(--gray); font-size: 13px; flex-shrink: 0; }
+
+/* ── LAYOUT ── */
+.wiki-layout { display: flex; margin-top: 56px; min-height: calc(100vh - 56px); }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w); flex-shrink: 0; position: fixed; top: 56px; bottom: 0; left: 0;
+  background: var(--surface); border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 24px 0;
+  scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.sidebar-section { margin-bottom: 8px; }
+.sidebar-heading {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  color: var(--gray); text-transform: uppercase; padding: 8px 20px 6px;
+}
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 20px; text-decoration: none; font-size: 14px; font-weight: 500;
+  color: var(--light); transition: background 0.15s, color 0.15s; cursor: pointer;
+  border-left: 3px solid transparent;
+}
+.sidebar-link:hover { background: var(--panel); color: var(--white); }
+.sidebar-link.active { background: var(--panel); color: var(--yellow); border-left-color: var(--yellow); }
+.sidebar-link .link-icon { font-size: 15px; flex-shrink: 0; opacity: 0.8; }
+.sidebar-divider { height: 1px; background: var(--border); margin: 12px 20px; }
+
+/* ── MAIN CONTENT ── */
+.wiki-main { margin-left: var(--sidebar-w); flex: 1; padding: 48px 60px 80px; max-width: 960px; }
+
+/* ── WIKI HEADER ── */
+.wiki-hero {
+  background: var(--panel); border: 1px solid var(--border);
+  padding: 40px 48px; margin-bottom: 48px; position: relative; overflow: hidden;
+}
+.wiki-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(245,196,0,0.025) 18px, rgba(245,196,0,0.025) 20px);
+}
+.wiki-hero::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--yellow), var(--orange)); }
+.wiki-hero-content { position: relative; }
+.wiki-breadcrumb { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--gray); letter-spacing: 2px; margin-bottom: 12px; }
+.wiki-breadcrumb a { color: var(--yellow); text-decoration: none; }
+.wiki-breadcrumb a:hover { text-decoration: underline; }
+.wiki-hero h1 { font-family: 'Black Ops One', sans-serif; font-size: 48px; letter-spacing: 3px; margin-bottom: 16px; }
+.wiki-hero h1 span { color: var(--yellow); }
+.wiki-hero p { font-size: 16px; color: var(--light); line-height: 1.6; max-width: 600px; }
+
+/* ── DOC SECTIONS ── */
+.doc-section { margin-bottom: 64px; }
+.doc-section-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 20px;
+}
+.doc-section-icon { font-size: 24px; }
+.doc-section-title { font-family: 'Black Ops One', sans-serif; font-size: 28px; letter-spacing: 2px; }
+.doc-section-badge {
+  font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px;
+  color: var(--gray); background: var(--panel); padding: 4px 10px; border-radius: 2px;
+  border: 1px solid var(--border);
+}
+.doc-desc { font-size: 15px; color: var(--light); line-height: 1.6; margin-bottom: 24px; }
+
+/* ── SCHEDULE ── */
+.schedule-grid { border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.schedule-row { display: flex; }
+.schedule-row.header { background: var(--panel); }
+.schedule-row.header .sch-cell { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 2px; color: var(--gray); text-transform: uppercase; font-weight: 600; }
+.sch-cell { padding: 14px 16px; flex: 1; border-right: 1px solid var(--border); font-size: 14px; }
+.sch-cell:last-child { border-right: none; }
+.sch-cell.day { font-weight: 600; color: var(--white); }
+.sch-cell.type { color: var(--yellow); }
+.sch-cell.time { font-family: 'Share Tech Mono', monospace; }
+.status-pill { font-family: 'Share Tech Mono', monospace; font-size: 10px; letter-spacing: 1px; padding: 4px 8px; border-radius: 2px; text-transform: uppercase; }
+.status-pill.public { background: var(--green); color: #000; }
+.status-pill.members { background: var(--yellow); color: #000; }

@@ -1,0 +1,227 @@
+:root {
+  --bg: #0c0e0f;
+  --surface: #131618;
+  --panel: #1a1d1f;
+  --panel2: #1e2123;
+  --border: #2a2d30;
+  --purple: #8b5cf6;
+  --purple-dim: #7c3aed;
+  --orange: #e8730a;
+  --white: #edeae3;
+  --gray: #7a7d82;
+  --light: #b0b3b8;
+  --danger: #d94f2b;
+  --green: #3ddc6e;
+}
+
+.dashboard {
+  padding: 20px;
+  background: var(--bg);
+  color: var(--white);
+  min-height: 100vh;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.dashboard h1 {
+  color: var(--white);
+  margin-bottom: 20px;
+}
+
+.dashboard nav {
+  margin-bottom: 20px;
+}
+
+.dashboard button {
+  background: var(--panel);
+  color: var(--white);
+  border: 1px solid var(--border);
+  padding: 8px 16px;
+  margin-right: 10px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.dashboard button:hover {
+  background: var(--panel2);
+  border-color: var(--purple);
+}
+
+.dashboard button.active {
+  background: var(--purple);
+  color: var(--bg);
+  border-color: var(--purple);
+}
+
+.dashboard .tab-content {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.dashboard h2 {
+  color: var(--white);
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--purple);
+  padding-bottom: 10px;
+}
+
+.dashboard h3 {
+  color: var(--purple);
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.dashboard label {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--light);
+}
+
+.dashboard input, .dashboard select, .dashboard textarea {
+  background: var(--surface);
+  color: var(--white);
+  border: 1px solid var(--border);
+  padding: 8px;
+  margin-bottom: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dashboard input:focus, .dashboard select:focus, .dashboard textarea:focus {
+  border-color: var(--purple);
+  outline: none;
+}
+
+.dashboard textarea {
+  font-family: 'Rajdhani', monospace;
+  resize: vertical;
+}
+
+.dashboard .form-group {
+  margin-bottom: 15px;
+}
+
+.dashboard .form-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dashboard .form-row input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.dashboard .remove-btn {
+  background: var(--danger);
+  color: var(--white);
+  border: 1px solid var(--danger);
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.dashboard .remove-btn:hover {
+  background: #b33a22;
+}
+
+.dashboard .add-btn {
+  background: var(--green);
+  color: var(--white);
+  border: 1px solid var(--green);
+  padding: 6px 12px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.dashboard .add-btn:hover {
+  background: #2ea85a;
+}
+
+.dashboard .message {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 3px;
+}
+
+.dashboard .message.success {
+  background: rgba(61, 220, 110, 0.1);
+  color: var(--green);
+  border: 1px solid rgba(61, 220, 110, 0.3);
+}
+
+.dashboard .message.error {
+  background: rgba(217, 79, 43, 0.1);
+  color: var(--danger);
+  border: 1px solid rgba(217, 79, 43, 0.3);
+}
+
+.dashboard .vehicle-card {
+  border: 1px solid var(--border);
+  padding: 20px;
+  margin-bottom: 20px;
+  background: var(--surface);
+}
+
+.dashboard .vehicle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dashboard .vehicle-header h3 {
+  margin: 0;
+  color: var(--white);
+}
+
+.dashboard .livery-item, .dashboard .color-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  padding: 5px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.dashboard .livery-item input, .dashboard .color-item input {
+  margin: 0;
+  flex: 1;
+}
+
+.dashboard .color-item input[type="color"] {
+  width: 50px;
+  height: 30px;
+  padding: 0;
+  border: none;
+}
+
+.dashboard .token-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.dashboard .token-item input {
+  margin: 0;
+  flex: 1;
+}
+
+.dashboard .logout-btn {
+  background: var(--danger);
+  color: var(--white);
+  border: 1px solid var(--danger);
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.dashboard .logout-btn:hover {
+  background: #b33a22;
+}
