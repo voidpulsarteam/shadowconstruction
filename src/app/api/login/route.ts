@@ -1,17 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import bcrypt from 'bcryptjs'
-import fs from 'fs'
-import path from 'path'
-
-const usersPath = path.join(process.cwd(), 'data/users.json')
-
-function readUsers() {
-  try {
-    return JSON.parse(fs.readFileSync(usersPath, 'utf8'))
-  } catch {
-    return []
-  }
-}
+import { query } from '../../../lib/db'
 
 export async function POST(request: NextRequest) {
   const { username, password } = await request.json()
@@ -20,19 +9,29 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Username and password are required' }, { status: 400 })
   }
 
-  const users = readUsers()
-  const user = users.find((u: any) => u.username.toLowerCase() === username.toLowerCase())
+  try {
+    const users = await query('SELECT * FROM users WHERE username = ?', [username.toLowerCase()])
 
-  if (!user || !bcrypt.compareSync(password, user.passwordHash)) {
-    return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
+    if (users.length === 0) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
+    }
+
+    const user = users[0]
+
+    if (!bcrypt.compareSync(password, user.passwordHash)) {
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
+    }
+
+    const response = NextResponse.json({ success: true })
+    response.cookies.set('user', JSON.stringify({ username: user.username, role: user.role }), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 24 // 24 hours
+    })
+    return response
+  } catch (error) {
+    console.error('Login error:', error)
+    return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
-
-  const response = NextResponse.json({ success: true })
-  response.cookies.set('user', JSON.stringify({ username: user.username, role: user.role }), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: 60 * 60 * 24 // 24 hours
-  })
-  return response
 }

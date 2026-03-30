@@ -1,0 +1,114 @@
+[
+  {
+    "id": "shift-1",
+    "employee": "staff",
+    "startTime": "2024-01-15T09:00:00Z",
+    "endTime": "2026-03-30T23:24:21.257Z",
+    "breaks": [],
+    "status": "completed",
+    "totalDuration": 1160064,
+    "moderationStats": {
+      "warnings": 0,
+      "kicks": 0,
+      "bans": 0,
+      "bolos": 0,
+      "notes": 0,
+      "modcalls": 0,
+      "vehicleChecks": 0,
+      "memberChecks": 0,
+      "commandsUsed": 0
+    }
+  },
+  {
+    "id": "shift-2",
+    "employee": "manager",
+    "startTime": "2024-01-14T08:00:00Z",
+    "endTime": "2024-01-14T16:30:00Z",
+    "breaks": [
+      {
+        "startTime": "2024-01-14T12:00:00Z",
+        "endTime": "2024-01-14T12:30:00Z",
+        "duration": 30
+      }
+    ],
+    "status": "completed",
+    "totalDuration": 510,
+    "moderationStats": {
+      "warnings": 3,
+      "kicks": 1,
+      "bans": 0,
+      "bolos": 2,
+      "notes": 5,
+      "modcalls": 8,
+      "vehicleChecks": 12,
+      "memberChecks": 25,
+      "commandsUsed": 45
+    }
+  },
+  {
+    "id": "shift-1774912999314",
+    "employee": "admin",
+    "startTime": "2026-03-30T23:23:19.314Z",
+    "endTime": "2026-03-30T23:23:27.467Z",
+    "breaks": [],
+    "status": "completed",
+    "totalDuration": 0,
+    "moderationStats": {
+      "warnings": 0,
+      "kicks": 0,
+      "bans": 0,
+      "bolos": 0,
+      "notes": 0,
+      "modcalls": 0,
+      "vehicleChecks": 0,
+      "memberChecks": 0,
+      "commandsUsed": 0
+    }
+  },
+  {
+    "id": "shift-1774913051379",
+    "employee": "admin",
+    "startTime": "2026-03-30T23:24:11.379Z",
+    "endTime": "2026-03-30T23:24:22.742Z",
+    "breaks": [
+      {
+        "startTime": "2026-03-30T23:24:18.467Z",
+        "endTime": "2026-03-30T23:24:19.539Z",
+        "duration": 0
+      }
+    ],
+    "status": "completed",
+    "totalDuration": 0,
+    "moderationStats": {
+      "warnings": 0,
+      "kicks": 0,
+      "bans": 0,
+      "bolos": 0,
+      "notes": 0,
+      "modcalls": 0,
+      "vehicleChecks": 0,
+      "memberChecks": 0,
+      "commandsUsed": 0
+    }
+  },
+  {
+    "id": "shift-1774913299945",
+    "employee": "admin",
+    "startTime": "2026-03-30T23:28:19.945Z",
+    "endTime": "2026-03-30T23:31:51.910Z",
+    "breaks": [],
+    "status": "completed",
+    "totalDuration": 3,
+    "moderationStats": {
+      "warnings": 0,
+      "kicks": 0,
+      "bans": 0,
+      "bolos": 0,
+      "notes": 0,
+      "modcalls": 0,
+      "vehicleChecks": 0,
+      "memberChecks": 0,
+      "commandsUsed": 0
+    }
+  }
+]

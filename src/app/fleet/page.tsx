@@ -1,15 +1,36 @@
-import fs from 'fs'
-import path from 'path'
+'use client'
+
+import { useEffect, useState } from 'react'
 import './fleet.css'
 
-function getVehiclesData() {
-  const vehiclesPath = path.join(process.cwd(), 'data/vehicles.json')
-  return JSON.parse(fs.readFileSync(vehiclesPath, 'utf8'))
+interface Vehicle {
+  id: number
+  name: string
+  year: string
+  variant: string
+  liveries: any[]
+  colors: any[]
 }
 
 export default function Fleet() {
-  const vehicles = getVehiclesData()
-  const totalSlots = vehicles.reduce((s: number, v: any) => s + v.liveries.length, 0)
+  const [vehicles, setVehicles] = useState<Vehicle[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetch('/api/vehicles')
+      .then(res => res.json())
+      .then(data => {
+        setVehicles(data)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  const totalSlots = vehicles.reduce((s, v) => s + v.liveries.length, 0)
 
   return (
     <div id="site">
@@ -49,47 +70,51 @@ export default function Fleet() {
         </div>
 
         <div className="vehicles-grid">
-          {vehicles.map((vehicle: any, index: number) => (
-            <div key={index} className="vehicle-card">
-              <div className="card-num">{index + 1}</div>
-              <div className="card-head">
-                <div className="vehicle-name">{vehicle.name}</div>
-                <div className="vehicle-meta">
-                  <span className="meta-pill year">{vehicle.year}</span>
-                  {vehicle.variant && <span className="meta-pill variant">{vehicle.variant}</span>}
+          {vehicles.map((vehicle: Vehicle) => {
+            const liveries = typeof vehicle.liveries === 'string' ? JSON.parse(vehicle.liveries) : vehicle.liveries
+            const colors = typeof vehicle.colors === 'string' ? JSON.parse(vehicle.colors) : vehicle.colors
+            return (
+              <div key={vehicle.id} className="vehicle-card">
+                <div className="card-num">{vehicle.id}</div>
+                <div className="card-head">
+                  <div className="vehicle-name">{vehicle.name}</div>
+                  <div className="vehicle-meta">
+                    <span className="meta-pill year">{vehicle.year}</span>
+                    {vehicle.variant && <span className="meta-pill variant">{vehicle.variant}</span>}
+                  </div>
                 </div>
-              </div>
-              <div className="card-body">
-                <table className="livery-table">
-                  <tbody>
-                    {vehicle.liveries.map((livery: any, lIndex: number) => (
-                      <tr key={lIndex}>
-                        <td>
-                          <span className={`slot-badge ${livery.slot.toLowerCase().includes('left') ? 'left' : livery.slot.toLowerCase().includes('right') ? 'right' : 'back'}`}>
-                            {livery.slot}
-                          </span>
-                        </td>
-                        <td>
-                          <span className="livery-id">{livery.id}</span>
-                        </td>
-                      </tr>
+                <div className="card-body">
+                  <table className="livery-table">
+                    <tbody>
+                      {liveries.map((livery: any, lIndex: number) => (
+                        <tr key={lIndex}>
+                          <td>
+                            <span className={`slot-badge ${livery.slot.toLowerCase().includes('left') ? 'left' : livery.slot.toLowerCase().includes('right') ? 'right' : 'back'}`}>
+                              {livery.slot}
+                            </span>
+                          </td>
+                          <td>
+                            <span className="livery-id">{livery.id}</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                {colors && colors.length > 0 && (
+                  <div className="card-colors">
+                    {colors.map((color: any, cIndex: number) => (
+                      <div key={cIndex} className="color-chip">
+                        <div className="chip-swatch" style={{ backgroundColor: color.hex }}></div>
+                        <div className="chip-label">{color.role}</div>
+                        <div className="chip-value">{color.hex}</div>
+                      </div>
                     ))}
-                  </tbody>
-                </table>
+                  </div>
+                )}
               </div>
-              {vehicle.colors && vehicle.colors.length > 0 && (
-                <div className="card-colors">
-                  {vehicle.colors.map((color: any, cIndex: number) => (
-                    <div key={cIndex} className="color-chip">
-                      <div className="chip-swatch" style={{ backgroundColor: color.hex }}></div>
-                      <div className="chip-label">{color.role}</div>
-                      <div className="chip-value">{color.hex}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
+            )
+          })}
         </div>
       </main>
     </div>

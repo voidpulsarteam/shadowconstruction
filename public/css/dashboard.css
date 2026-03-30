@@ -262,3 +262,135 @@ input[type="color"] {
   .form-grid { grid-template-columns:1fr; }
   .livery-row { grid-template-columns:1fr 1fr auto; }
 }
+
+/* ── USER MANAGEMENT ── */
+.user-management-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.add-user-form {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.add-user-form h2 {
+  color: var(--text);
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.users-list h2 {
+  color: var(--text);
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.users-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 16px;
+}
+
+.user-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  transition: all 0.2s ease;
+}
+
+.user-card:hover {
+  border-color: var(--border-bright);
+  background: var(--card-hover);
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.user-role {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.role-admin { background: var(--danger); color: var(--white); }
+.role-manager { background: var(--accent2); color: var(--white); }
+.role-staff { background: var(--accent); color: var(--bg); }
+.role-employee { background: var(--muted2); color: var(--text); }
+
+.user-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.role-select {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.user-details {
+  margin-bottom: 12px;
+}
+
+.user-detail {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.role-permissions {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+}
+
+.permissions-title {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.permissions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.permission-tag {
+  background: var(--surface);
+  color: var(--text);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+  border: 1px solid var(--border);
+}

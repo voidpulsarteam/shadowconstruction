@@ -1,49 +1,49 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
-import { cookies } from 'next/headers'
-
-const tokensPath = path.join(process.cwd(), 'data/tokens.json')
-const usersPath = path.join(process.cwd(), 'data/users.json')
-
-function readUsers() {
-  try {
-    return JSON.parse(fs.readFileSync(usersPath, 'utf8'))
-  } catch {
-    return []
-  }
-}
+import { query } from '../../../lib/db'
 
 export async function GET() {
   try {
-    const tokens = JSON.parse(fs.readFileSync(tokensPath, 'utf8'))
+    const tokens = await query('SELECT * FROM tokens ORDER BY created_at DESC')
     return NextResponse.json(tokens)
-  } catch {
+  } catch (error) {
+    console.error('Error fetching tokens:', error)
     return NextResponse.json({ error: 'Failed to load tokens' }, { status: 500 })
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const cookieStore = await cookies()
-    const sessionCookie = cookieStore.get('session')?.value
+    const userCookie = request.cookies.get('user')?.value
 
-    if (!sessionCookie) {
+    if (!userCookie) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     }
 
-    const users = readUsers()
-    const user = users.find((u: any) => u.session === sessionCookie)
+    let user
+    try {
+      user = JSON.parse(userCookie)
+    } catch {
+      return NextResponse.json({ error: 'Invalid session' }, { status: 401 })
+    }
 
-    if (!user || user.role !== 'admin') {
+    if (user.role !== 'admin') {
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 })
     }
 
     const updates = await request.json()
-    fs.writeFileSync(tokensPath, JSON.stringify(updates, null, 2))
+
+    // Clear existing tokens and insert new ones
+    await query('DELETE FROM tokens')
+    for (const token of updates) {
+      await query(
+        'INSERT INTO tokens (token, type, expires_at) VALUES (?, ?, ?)',
+        [token.token, token.type, token.expires_at]
+      )
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
+    console.error('Error updating tokens:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }

@@ -1,36 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs'
-import path from 'path'
 import bcrypt from 'bcryptjs'
-import { cookies } from 'next/headers'
-
-const usersPath = path.join(process.cwd(), 'data/users.json')
-
-function readUsers() {
-  try {
-    return JSON.parse(fs.readFileSync(usersPath, 'utf8'))
-  } catch {
-    return []
-  }
-}
-
-function writeUsers(users: any[]) {
-  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2))
-}
+import { query } from '../../../lib/db'
 
 export async function POST(request: NextRequest) {
   try {
-    const cookieStore = await cookies()
-    const sessionCookie = cookieStore.get('session')?.value
+    const userCookie = request.cookies.get('user')?.value
 
-    if (!sessionCookie) {
+    if (!userCookie) {
       return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
     }
 
-    const users = readUsers()
-    const user = users.find((u: any) => u.session === sessionCookie)
-
-    if (!user) {
+    let user
+    try {
+      user = JSON.parse(userCookie)
+    } catch {
       return NextResponse.json({ error: 'Invalid session' }, { status: 401 })
     }
 
@@ -40,18 +23,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Missing fields' }, { status: 400 })
     }
 
-    const isValid = await bcrypt.compare(currentPassword, user.password)
+    // Get user from database
+    const users = await query('SELECT * FROM users WHERE username = ?', [user.username])
+    if (users.length === 0) {
+      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+    }
+
+    const dbUser = users[0]
+
+    const isValid = bcrypt.compareSync(currentPassword, dbUser.passwordHash)
     if (!isValid) {
       return NextResponse.json({ error: 'Current password incorrect' }, { status: 400 })
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10)
-    user.password = hashedPassword
-
-    writeUsers(users)
+    const hashedPassword = bcrypt.hashSync(newPassword, 10)
+    await query('UPDATE users SET passwordHash = ? WHERE username = ?', [hashedPassword, user.username])
 
     return NextResponse.json({ success: true })
   } catch (error) {
+    console.error('Error changing password:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }

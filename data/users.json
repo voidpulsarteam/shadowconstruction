@@ -3,5 +3,20 @@
     "username": "admin",
     "passwordHash": "$2a$10$ml/49kefNH4toyuUokNJVuaFYJfpbBz1ksKaaKsRvfbYnCqIrK9Vu",
     "role": "admin"
+  },
+  {
+    "username": "manager",
+    "passwordHash": "$2a$10$ml/49kefNH4toyuUokNJVuaFYJfpbBz1ksKaaKsRvfbYnCqIrK9Vu",
+    "role": "manager"
+  },
+  {
+    "username": "staff",
+    "passwordHash": "$2a$10$ml/49kefNH4toyuUokNJVuaFYJfpbBz1ksKaaKsRvfbYnCqIrK9Vu",
+    "role": "staff"
+  },
+  {
+    "username": "employee",
+    "passwordHash": "$2a$10$ml/49kefNH4toyuUokNJVuaFYJfpbBz1ksKaaKsRvfbYnCqIrK9Vu",
+    "role": "employee"
   }
 ]

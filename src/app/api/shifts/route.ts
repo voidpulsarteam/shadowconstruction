@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { query } from '../../../lib/db'
+import fs from 'fs'
+import path from 'path'
+
+const shiftsFilePath = path.join(process.cwd(), 'data', 'shifts.json')
 
 export async function GET() {
   try {
-    const pages = await query('SELECT * FROM wiki_pages ORDER BY id')
-    const wiki = { pages }
-    return NextResponse.json(wiki)
+    const shiftsData = fs.readFileSync(shiftsFilePath, 'utf8')
+    const shifts = JSON.parse(shiftsData)
+    return NextResponse.json(shifts)
   } catch (error) {
-    console.error('Error fetching wiki:', error)
-    return NextResponse.json({ error: 'Failed to load wiki data' }, { status: 500 })
+    console.error('Error fetching shifts:', error)
+    return NextResponse.json({ error: 'Failed to load shifts data' }, { status: 500 })
   }
 }
 
@@ -27,24 +30,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid session' }, { status: 401 })
     }
 
-    if (user.role !== 'admin') {
+    // Allow admin, manager, and staff to manage shifts
+    if (!['admin', 'manager', 'staff'].includes(user.role)) {
       return NextResponse.json({ error: 'Not authorized' }, { status: 403 })
     }
 
-    const { pages } = await request.json()
+    const updates = await request.json()
 
-    // Clear existing pages and insert new ones
-    await query('DELETE FROM wiki_pages')
-    for (const page of pages) {
-      await query(
-        'INSERT INTO wiki_pages (id, title, content) VALUES (?, ?, ?)',
-        [page.id, page.title, page.content]
-      )
-    }
+    // Write shifts data to file
+    fs.writeFileSync(shiftsFilePath, JSON.stringify(updates, null, 2))
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error updating wiki:', error)
+    console.error('Error updating shifts:', error)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }
