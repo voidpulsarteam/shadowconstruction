@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
 
     // Save to database
     await query(
-      'INSERT INTO site_settings (id, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data=?',
-      ['main', JSON.stringify(site), JSON.stringify(site)]
+      'INSERT INTO site_settings (id, data) VALUES (?, ?) ON CONFLICT(id) DO UPDATE SET data = excluded.data',
+      ['main', JSON.stringify(site)]
     )
 
     return NextResponse.json({ success: true })

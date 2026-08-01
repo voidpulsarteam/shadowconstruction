@@ -112,6 +112,13 @@ export default function Dashboard() {
   const [usersMessage, setUsersMessage] = useState('')
   const [newUser, setNewUser] = useState({ username: '', password: '', role: 'employee' as UserRole })
 
+  const normalizeTokens = (value: unknown): Token[] => {
+    if (Array.isArray(value)) {
+      return value as Token[]
+    }
+    return []
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -144,16 +151,18 @@ export default function Dashboard() {
           colors: typeof v.colors === 'string' ? JSON.parse(v.colors) : v.colors
         }))
 
+        const normalizedTokens = normalizeTokens(tokensDataFetched)
+
         setUser(userData)
         setSite(siteDataFetched)
         setVehicles(vehiclesDataFetched)
         setWiki(wikiDataFetched)
-        setTokens(tokensDataFetched)
+        setTokens(normalizedTokens)
         setShifts(shiftsDataFetched)
         setSiteData(siteDataFetched) // For editing
         setWikiData(wikiDataFetched)
         setVehiclesData(vehiclesDataParsed)
-        setTokensData(tokensDataFetched)
+        setTokensData(normalizedTokens)
         setShiftsData(shiftsDataFetched)
         setAllUsers(usersDataFetched)
         setSelectedWikiPage('home') // Initialize selected page

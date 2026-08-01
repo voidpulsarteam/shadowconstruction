@@ -3,11 +3,11 @@ import { query } from '../../../lib/db'
 
 export async function GET() {
   try {
-    const tokens = await query('SELECT * FROM tokens ORDER BY created_at DESC')
-    return NextResponse.json(tokens)
+    const tokens = await query('SELECT * FROM tokens ORDER BY created_at DESC, id DESC')
+    return NextResponse.json(Array.isArray(tokens) ? tokens : [])
   } catch (error) {
     console.error('Error fetching tokens:', error)
-    return NextResponse.json({ error: 'Failed to load tokens' }, { status: 500 })
+    return NextResponse.json([], { status: 200 })
   }
 }
 

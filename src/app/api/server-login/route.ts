@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
 
     // Store the token (in production, associate with serverId)
     await query(
-      'INSERT INTO tokens (token, type, expires_at) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 24 HOUR))',
+      "INSERT INTO tokens (token, type, expires_at, created_at) VALUES (?, ?, datetime('now', '+24 hours'), datetime('now'))",
       [token, 'server']
     )
 

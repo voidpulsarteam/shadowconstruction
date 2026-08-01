@@ -11,7 +11,7 @@ export async function authenticateServer(request: NextRequest): Promise<boolean>
   const token = authHeader.substring(7) // Remove 'Bearer ' prefix
 
   try {
-    const tokens = await query('SELECT * FROM tokens WHERE token = ? AND (expires_at IS NULL OR expires_at > NOW())', [token])
+    const tokens = await query("SELECT * FROM tokens WHERE token = ? AND (expires_at IS NULL OR expires_at > datetime('now'))", [token])
     return tokens.length > 0
   } catch (error) {
     console.error('Token authentication error:', error)

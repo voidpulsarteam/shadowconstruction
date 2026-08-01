@@ -119,7 +119,7 @@ export default function Home() {
             <div className="stat-label">Discord Members</div>
           </div>
           <div className="stat-item">
-            <div className="stat-number">#{site.stats.rank}</div>
+            <div className="stat-number">{site.stats.rank}</div>
             <div className="stat-label">Liberty County Rank</div>
           </div>
         </div>

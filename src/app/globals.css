@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Orbitron:wght@400;500;600;700;900&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #0a0b0c;
-  --foreground: #f9fafb;
-  --font-inter: 'Inter', sans-serif;
-  --font-orbitron: 'Orbitron', monospace;
+  --background: #0b0c0d;
+  --foreground: #edeae2;
+  --font-display: var(--font-black-ops-one);
+  --font-sans-base: var(--font-rajdhani);
+  --font-data: var(--font-share-tech-mono);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-orbitron);
+  --font-sans: var(--font-sans-base);
+  --font-mono: var(--font-data);
 }
 
 * {
@@ -22,15 +22,38 @@
 }
 
 html {
-  font-family: var(--font-inter);
   scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter);
+  font-family: var(--font-sans-base), sans-serif;
+  font-weight: 500;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #f5c400;
+  color: #0b0c0d;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid #f5c400;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
